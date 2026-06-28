@@ -1,0 +1,18 @@
+CREATE INDEX idx_pv_projects_org       ON pv_projects (organization_id, status);
+CREATE INDEX idx_patients_project      ON patients (project_id, status);
+CREATE INDEX idx_interactions_patient  ON interactions (patient_id, interaction_at DESC);
+CREATE INDEX idx_interactions_project  ON interactions (project_id, ai_processed, safety_mention_detected);
+CREATE INDEX idx_obs_interaction       ON safety_observations (interaction_id);
+CREATE INDEX idx_obs_type_serious      ON safety_observations (organization_id, observation_type, is_serious);
+CREATE INDEX idx_leads_org_status      ON safety_leads (organization_id, status, urgency);
+CREATE INDEX idx_leads_project         ON safety_leads (project_id, status, received_at DESC);
+CREATE INDEX idx_leads_assigned        ON safety_leads (assigned_to, status);
+CREATE INDEX idx_leads_sla             ON safety_leads (sla_due_at) WHERE status NOT IN ('exported','closed_non_pv','closed_duplicate','closed_insufficient');
+CREATE INDEX idx_evidence_lead         ON lead_evidence (lead_id);
+CREATE INDEX idx_followup_lead         ON follow_up_tasks (lead_id, status);
+CREATE INDEX idx_review_lead           ON review_decisions (lead_id, created_at DESC);
+CREATE INDEX idx_signals_org_status    ON signals (organization_id, signal_status, prr DESC);
+CREATE INDEX idx_signals_project       ON signals (project_id, signal_status);
+CREATE INDEX idx_audit_entity          ON audit_log (entity_type, entity_id);
+CREATE INDEX idx_audit_org_time        ON audit_log (organization_id, created_at DESC);
+CREATE INDEX idx_users_email           ON ss_users (email);
