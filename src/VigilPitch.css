@@ -833,6 +833,268 @@
   text-align: center;
 }
 
+.vigil-solution-slide .vigil-slide-heading p,
+.vigil-solution-slide .vigil-slide-heading h1,
+.vigil-solution-slide .vigil-slide-heading span,
+.vigil-solution-slide .vigil-bottom-line {
+  animation: vigilSolutionTextIn 680ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.vigil-solution-slide .vigil-slide-heading h1 {
+  animation-delay: 120ms;
+}
+
+.vigil-solution-slide .vigil-slide-heading span {
+  animation-delay: 240ms;
+}
+
+.vigil-solution-slide .vigil-conversation-node {
+  animation: vigilSolutionCardIn 760ms cubic-bezier(0.16, 1, 0.3, 1) 380ms both;
+}
+
+.vigil-solution-slide .vigil-conversation-core {
+  position: relative;
+  animation: vigilSolutionCoreGlow 1800ms ease-out 700ms both;
+}
+
+.vigil-solution-slide .vigil-conversation-orbit span {
+  animation: vigilSolutionIconIn 620ms cubic-bezier(0.16, 1, 0.3, 1) both, vigilSolutionIconPulse 2600ms ease-in-out 1400ms infinite;
+}
+
+.vigil-solution-slide .vigil-conversation-orbit span:nth-child(1) {
+  animation-delay: 560ms, 1400ms;
+}
+
+.vigil-solution-slide .vigil-conversation-orbit span:nth-child(2) {
+  animation-delay: 680ms, 1520ms;
+}
+
+.vigil-solution-slide .vigil-conversation-orbit span:nth-child(3) {
+  animation-delay: 800ms, 1640ms;
+}
+
+.vigil-solution-slide .vigil-conversation-orbit span:nth-child(4) {
+  animation-delay: 920ms, 1760ms;
+}
+
+.vigil-solution-flow.is-clean > .vigil-flow-arrow {
+  opacity: 0;
+  animation: vigilSolutionArrowIn 540ms ease-out both;
+}
+
+.vigil-solution-flow.is-clean > .vigil-flow-arrow:nth-child(2) {
+  animation-delay: 1040ms;
+}
+
+.vigil-solution-flow.is-clean > .vigil-flow-arrow:nth-child(4) {
+  animation-delay: 1840ms;
+}
+
+.vigil-solution-flow.is-clean > .vigil-flow-arrow:nth-child(6) {
+  animation-delay: 2500ms;
+}
+
+.vigil-solution-slide .vigil-ai-zone {
+  animation: vigilSolutionCardIn 760ms cubic-bezier(0.16, 1, 0.3, 1) 1160ms both;
+}
+
+.vigil-solution-slide .vigil-ai-zone-title svg {
+  animation: vigilSolutionSpark 1800ms ease-in-out 1450ms infinite;
+}
+
+.vigil-solution-slide .vigil-ai-step {
+  opacity: 0;
+  animation: vigilSolutionStepResolve 520ms ease-out both;
+}
+
+.vigil-solution-slide .vigil-ai-step:nth-child(2) {
+  animation-delay: 1460ms;
+}
+
+.vigil-solution-slide .vigil-ai-step:nth-child(3) {
+  animation-delay: 1660ms;
+}
+
+.vigil-solution-slide .vigil-ai-step:nth-child(4) {
+  animation-delay: 1860ms;
+}
+
+.vigil-solution-slide .vigil-human-node {
+  animation: vigilSolutionCardIn 720ms cubic-bezier(0.16, 1, 0.3, 1) 1980ms both;
+}
+
+.vigil-solution-slide .vigil-human-node .vigil-flow-icon {
+  animation: vigilSolutionReviewLock 900ms ease-out 2380ms both;
+}
+
+.vigil-solution-slide .vigil-output-card {
+  animation: vigilSolutionOutputIn 760ms cubic-bezier(0.16, 1, 0.3, 1) 2620ms both;
+}
+
+.vigil-solution-slide .vigil-output-card strong {
+  animation: vigilSolutionStatusLock 760ms ease-out 3200ms both;
+}
+
+.vigil-solution-slide .vigil-bottom-line {
+  animation-delay: 3360ms;
+}
+
+@keyframes vigilSolutionTextIn {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes vigilSolutionCardIn {
+  from {
+    opacity: 0;
+    transform: translateY(24px) scale(0.97);
+    filter: saturate(0.7);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    filter: saturate(1);
+  }
+}
+
+@keyframes vigilSolutionCoreGlow {
+  0% {
+    box-shadow: 0 0 0 rgba(246, 173, 27, 0);
+  }
+
+  38% {
+    box-shadow: 0 0 0 10px rgba(246, 173, 27, 0.14), 0 0 42px rgba(126, 63, 200, 0.38);
+  }
+
+  100% {
+    box-shadow: 0 0 0 2px rgba(246, 173, 27, 0.06), 0 0 24px rgba(126, 63, 200, 0.18);
+  }
+}
+
+@keyframes vigilSolutionIconIn {
+  from {
+    opacity: 0;
+    transform: scale(0.52);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes vigilSolutionIconPulse {
+  0%,
+  100% {
+    box-shadow: 0 0 0 7px rgba(126, 63, 200, 0.16), 0 16px 34px rgba(0, 0, 0, 0.34);
+  }
+
+  50% {
+    box-shadow: 0 0 0 10px rgba(246, 173, 27, 0.16), 0 18px 38px rgba(126, 63, 200, 0.44);
+  }
+}
+
+@keyframes vigilSolutionArrowIn {
+  0% {
+    opacity: 0;
+    transform: translateX(-14px) scale(0.82);
+  }
+
+  58% {
+    opacity: 1;
+    transform: translateX(5px) scale(1.08);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateX(0) scale(1);
+  }
+}
+
+@keyframes vigilSolutionStepResolve {
+  from {
+    opacity: 0;
+    transform: translateX(-18px);
+    border-color: rgba(246, 173, 27, 0.08);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0);
+    border-color: rgba(246, 173, 27, 0.32);
+  }
+}
+
+@keyframes vigilSolutionSpark {
+  0%,
+  100% {
+    transform: scale(1) rotate(0deg);
+    color: #f4ecff;
+  }
+
+  50% {
+    transform: scale(1.14) rotate(8deg);
+    color: #f6ad1b;
+  }
+}
+
+@keyframes vigilSolutionReviewLock {
+  0% {
+    box-shadow: 0 0 0 rgba(246, 173, 27, 0);
+    transform: scale(1);
+  }
+
+  45% {
+    box-shadow: 0 0 0 9px rgba(246, 173, 27, 0.16);
+    transform: scale(1.08);
+  }
+
+  100% {
+    box-shadow: 0 0 0 rgba(246, 173, 27, 0);
+    transform: scale(1);
+  }
+}
+
+@keyframes vigilSolutionOutputIn {
+  from {
+    opacity: 0;
+    transform: translateY(22px) scale(0.96);
+    border-color: rgba(103, 232, 249, 0.12);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    border-color: rgba(103, 232, 249, 0.46);
+  }
+}
+
+@keyframes vigilSolutionStatusLock {
+  0% {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+
+  50% {
+    opacity: 1;
+    transform: scale(1.04);
+    background: rgba(246, 173, 27, 0.28);
+  }
+
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
 .vigil-mini-title {
   display: flex;
   align-items: center;
@@ -1133,4 +1395,26 @@
   clip: rect(0 0 0 0);
   clip-path: inset(50%);
   white-space: nowrap;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .vigil-solution-slide .vigil-slide-heading p,
+  .vigil-solution-slide .vigil-slide-heading h1,
+  .vigil-solution-slide .vigil-slide-heading span,
+  .vigil-solution-slide .vigil-bottom-line,
+  .vigil-solution-slide .vigil-conversation-node,
+  .vigil-solution-slide .vigil-conversation-core,
+  .vigil-solution-slide .vigil-conversation-orbit span,
+  .vigil-solution-flow.is-clean > .vigil-flow-arrow,
+  .vigil-solution-slide .vigil-ai-zone,
+  .vigil-solution-slide .vigil-ai-zone-title svg,
+  .vigil-solution-slide .vigil-ai-step,
+  .vigil-solution-slide .vigil-human-node,
+  .vigil-solution-slide .vigil-human-node .vigil-flow-icon,
+  .vigil-solution-slide .vigil-output-card,
+  .vigil-solution-slide .vigil-output-card strong {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
 }
