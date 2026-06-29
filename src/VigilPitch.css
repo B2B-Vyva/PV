@@ -240,14 +240,13 @@
 .vigil-output-card strong,
 .vigil-ask-card h2,
 .vigil-ask-card p,
-.vigil-why-core,
-.vigil-proof-card h2,
-.vigil-proof-card p,
-.vigil-proof-card small,
-.vigil-proof-strip,
-.vigil-proof-strip strong,
-.vigil-proof-line,
-.vigil-final-line {
+.vigil-why-kicker,
+.vigil-why-message h1,
+.vigil-why-message h2,
+.vigil-why-subline,
+.vigil-why-proof-panel p,
+.vigil-why-proof-panel strong,
+.vigil-why-proof-panel small {
   margin: 0;
 }
 
@@ -993,50 +992,136 @@
 }
 
 .vigil-why-slide {
-  gap: 30px;
-  padding-top: 62px;
+  display: grid;
+  grid-template-rows: minmax(0, 1fr) auto;
+  gap: 42px;
+  padding: 74px 80px 64px;
 }
 
-.vigil-why-slide .vigil-slide-heading {
-  max-width: 1050px;
-}
-
-.vigil-proof-strip {
-  display: flex;
+.vigil-why-executive {
+  display: grid;
+  grid-template-columns: minmax(0, 1.3fr) minmax(360px, 0.58fr);
+  gap: 80px;
   align-items: center;
-  flex-wrap: wrap;
-  gap: 26px;
+  min-height: 0;
 }
 
-.vigil-proof-strip span {
-  display: inline-flex;
-  align-items: center;
-  gap: 11px;
-  color: #fff;
-  font-size: 24px;
-  font-weight: 950;
+.vigil-why-message {
+  max-width: 1040px;
 }
 
-.vigil-proof-strip svg {
-  flex: 0 0 auto;
+.vigil-why-kicker {
   color: #f6ad1b;
+  font-size: 18px;
+  font-weight: 950;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
 }
 
-.vigil-proof-line {
-  color: #ffe7b1;
-  font-size: 20px;
-  font-weight: 850;
-  opacity: 0.72;
-}
-
-.vigil-final-line {
-  margin-top: auto;
-  border-top: 2px solid rgba(246, 173, 27, 0.44);
-  padding: 30px 20px 0 0;
+.vigil-why-message h1,
+.vigil-why-message h2 {
   color: #fff;
-  font-size: 104px;
   font-weight: 1000;
-  line-height: 0.92;
+  letter-spacing: 0;
+}
+
+.vigil-why-message h1 {
+  margin-top: 22px;
+  max-width: 980px;
+  font-size: 88px;
+  line-height: 0.96;
+}
+
+.vigil-why-message h2 {
+  margin-top: 18px;
+  max-width: 1100px;
+  color: #f6f1ff;
+  font-size: 70px;
+  line-height: 0.98;
+}
+
+.vigil-why-subline {
+  margin-top: 34px;
+  max-width: 830px;
+  color: #d9d1e8;
+  font-size: 28px;
+  font-weight: 820;
+  line-height: 1.2;
+}
+
+.vigil-why-proof-panel {
+  align-self: center;
+  border-left: 3px solid rgba(246, 173, 27, 0.72);
+  background: linear-gradient(90deg, rgba(246, 173, 27, 0.1), rgba(255, 255, 255, 0.045));
+  padding: 34px 0 34px 34px;
+}
+
+.vigil-why-proof-panel > p {
+  color: #f6ad1b;
+  font-size: 15px;
+  font-weight: 950;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.vigil-why-proof-list {
+  display: grid;
+  gap: 28px;
+  margin-top: 30px;
+}
+
+.vigil-why-proof-list article {
+  display: grid;
+  grid-template-columns: 46px minmax(0, 1fr);
+  gap: 18px;
+  align-items: center;
+}
+
+.vigil-why-proof-list article > span {
+  display: grid;
+  place-items: center;
+  width: 46px;
+  height: 46px;
+  border: 1px solid rgba(246, 173, 27, 0.5);
+  border-radius: 999px;
+  color: #ffe7b1;
+  font-size: 15px;
+  font-weight: 1000;
+}
+
+.vigil-why-proof-list div {
+  display: grid;
+  gap: 7px;
+}
+
+.vigil-why-proof-list strong {
+  color: #fff;
+  font-size: 26px;
+  font-weight: 950;
+  line-height: 1.05;
+}
+
+.vigil-why-proof-list small {
+  color: #d7d0e4;
+  font-size: 19px;
+  font-weight: 760;
+  line-height: 1.23;
+}
+
+.vigil-why-compliance {
+  display: flex;
+  justify-content: space-between;
+  gap: 18px;
+  border-top: 1px solid rgba(246, 173, 27, 0.42);
+  padding-top: 20px;
+}
+
+.vigil-why-compliance span {
+  color: #f7ecff;
+  font-size: 19px;
+  font-weight: 900;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
 }
 
 .vigil-pitch-speaker-note,

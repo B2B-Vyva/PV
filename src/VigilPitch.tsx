@@ -6,7 +6,6 @@ import {
   ArrowRight,
   CheckCircle2,
   ClipboardCheck,
-  FileText,
   MessageCircle,
   Mic2,
   PackageCheck,
@@ -15,7 +14,6 @@ import {
   Smartphone,
   Sparkles,
   Users,
-  Workflow,
 } from 'lucide-react'
 import { VigilDemoFrame } from './VigilDemo'
 import { vigilDemoSteps } from './vigilDemoSteps'
@@ -449,38 +447,59 @@ function AskSlide() {
 }
 
 function WhySlide() {
-  const pillars = [
+  const proofRows = [
     {
-      title: 'Patient voice',
-      icon: MessageCircle,
+      label: 'Existing VYVA infrastructure',
+      detail: 'Phone, app, WhatsApp, and caregiver channels already in place.',
     },
     {
-      title: 'Safety context',
-      icon: FileText,
+      label: 'Real-world deployment path',
+      detail: 'European Commission RURACTIVE pilot with German Red Cross / DRK as project partner.',
     },
     {
-      title: 'Human workflow',
-      icon: Workflow,
+      label: 'PV operating model',
+      detail: 'Human review, sponsor-controlled handoff, and audit-ready evidence.',
     },
   ]
 
   return (
     <section className="vigil-pitch-slide vigil-why-slide">
-      <div className="vigil-slide-heading">
-        <p>Execution foundation</p>
-        <h1>Why VYVA</h1>
-        <span>VIGIL builds on an existing patient engagement foundation.</span>
+      <div className="vigil-why-executive">
+        <div className="vigil-why-message">
+          <p className="vigil-why-kicker">Why VYVA</p>
+          <h1>
+            VYVA gives patients
+            <br />a voice.
+          </h1>
+          <h2>
+            VIGIL makes that voice usable
+            <br />
+            for pharmacovigilance.
+          </h2>
+          <p className="vigil-why-subline">
+            Patient-generated safety intelligence, prepared for sponsor-led review.
+          </p>
+        </div>
+        <aside className="vigil-why-proof-panel" aria-label="Execution foundation">
+          <p>Execution foundation</p>
+          <div className="vigil-why-proof-list">
+            {proofRows.map(({ label, detail }, index) => (
+              <article key={label}>
+                <span>{String(index + 1).padStart(2, '0')}</span>
+                <div>
+                  <strong>{label}</strong>
+                  <small>{detail}</small>
+                </div>
+              </article>
+            ))}
+          </div>
+        </aside>
       </div>
-      <div className="vigil-proof-strip" aria-label="VYVA foundation">
-        {pillars.map(({ title, icon: Icon }) => (
-          <span key={title}>
-            <Icon size={24} />
-            <strong>{title}</strong>
-          </span>
-        ))}
+      <div className="vigil-why-compliance">
+        <span>Human-in-the-loop</span>
+        <span>Sponsor-controlled</span>
+        <span>No autonomous reporting</span>
       </div>
-      <p className="vigil-proof-line">European Commission RURACTIVE pilot + German Red Cross / DRK project partner</p>
-      <p className="vigil-final-line">VYVA gives patients a voice. VIGIL makes that voice usable for pharmacovigilance.</p>
     </section>
   )
 }
