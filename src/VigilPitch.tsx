@@ -339,7 +339,7 @@ function SolutionSlide() {
           <div className="vigil-conversation-orbit" aria-hidden="true">
             {channelIcons.map((Icon, index) => (
               <span key={String(index)}>
-                <Icon size={21} />
+                <Icon size={28} />
               </span>
             ))}
           </div>
@@ -451,21 +451,15 @@ function AskSlide() {
 function WhySlide() {
   const pillars = [
     {
-      title: 'AI patient voice',
-      detail: 'We already help seniors speak up through natural conversations.',
-      proof: 'Voice check-ins - phone - app - WhatsApp - desktop - smart speaker-ready - caregiver input',
+      title: 'Patient voice',
       icon: MessageCircle,
     },
     {
-      title: 'Real-world safety context',
-      detail: 'We already capture the clues forms miss.',
-      proof: 'Medication routines - symptom checks - vitals - falls - mood changes - caregiver alerts',
+      title: 'Safety context',
       icon: FileText,
     },
     {
-      title: 'Closed-loop workflow',
-      detail: 'We already support action around the signal.',
-      proof: 'Patient interface - operations console - follow-up workflows - human review - sponsor-controlled handoff',
+      title: 'Human workflow',
       icon: Workflow,
     },
   ]
@@ -475,27 +469,17 @@ function WhySlide() {
       <div className="vigil-slide-heading">
         <p>Execution foundation</p>
         <h1>Why VYVA</h1>
-        <span>VIGIL is not starting from zero.</span>
+        <span>VIGIL builds on an existing patient engagement foundation.</span>
       </div>
-      <p className="vigil-why-core">
-        VYVA already gives hard-to-reach patients a voice. VIGIL turns that voice into pharma-grade safety intake.
-      </p>
-      <div className="vigil-proof-grid">
-        {pillars.map(({ title, detail, proof, icon: Icon }) => (
-          <div key={title} className="vigil-proof-card">
-            <span>
-              <Icon size={34} />
-            </span>
-            <h2>{title}</h2>
-            <p>{detail}</p>
-            <small>{proof}</small>
-          </div>
+      <div className="vigil-proof-strip" aria-label="VYVA foundation">
+        {pillars.map(({ title, icon: Icon }) => (
+          <span key={title}>
+            <Icon size={24} />
+            <strong>{title}</strong>
+          </span>
         ))}
       </div>
-      <div className="vigil-proof-footer">
-        <strong>Real-world deployment foundation</strong>
-        <span>European Commission RURACTIVE pilot - German Red Cross / DRK project partner</span>
-      </div>
+      <p className="vigil-proof-line">European Commission RURACTIVE pilot + German Red Cross / DRK project partner</p>
       <p className="vigil-final-line">VYVA gives patients a voice. VIGIL makes that voice usable for pharmacovigilance.</p>
     </section>
   )
