@@ -343,7 +343,7 @@ function SolutionSlide() {
           </div>
           <div className="vigil-conversation-core">
             <Users size={48} />
-            <h2>Patient conversation</h2>
+            <h2>Patient feedback</h2>
             <p>"New pill made me dizzy."</p>
           </div>
         </div>

@@ -651,11 +651,13 @@
 .vigil-conversation-orbit {
   position: absolute;
   inset: 28px;
+  z-index: 4;
   pointer-events: none;
 }
 
 .vigil-conversation-orbit span {
   position: absolute;
+  z-index: 5;
   width: 68px;
   height: 68px;
   display: grid;
@@ -689,12 +691,14 @@
 }
 
 .vigil-conversation-core {
+  position: relative;
+  z-index: 2;
   width: 306px;
   min-height: 306px;
   display: grid;
   align-content: center;
   justify-items: center;
-  gap: 16px;
+  gap: 13px;
   border: 1px solid rgba(246, 173, 27, 0.38);
   border-radius: 999px;
   background: radial-gradient(circle, rgba(126, 63, 200, 0.34), rgba(7, 6, 17, 0.72));
@@ -703,6 +707,11 @@
 
 .vigil-conversation-core svg {
   color: #f6ad1b;
+}
+
+.vigil-conversation-core > svg {
+  width: 42px;
+  height: 42px;
 }
 
 .vigil-conversation-core h2,
@@ -715,6 +724,14 @@
   letter-spacing: 0;
 }
 
+.vigil-conversation-core h2 {
+  max-width: 250px;
+  color: #d9d1e8;
+  font-size: 24px;
+  font-weight: 880;
+  line-height: 1.02;
+}
+
 .vigil-conversation-core p,
 .vigil-human-node p {
   margin: 0;
@@ -722,6 +739,14 @@
   font-size: 26px;
   font-weight: 780;
   line-height: 1.25;
+}
+
+.vigil-conversation-core p {
+  max-width: 260px;
+  color: #fff;
+  font-size: 38px;
+  font-weight: 950;
+  line-height: 1;
 }
 
 .vigil-flow-arrow {
