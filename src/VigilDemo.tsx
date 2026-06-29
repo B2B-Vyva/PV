@@ -294,6 +294,7 @@ function PresentationBar({
   title,
   onBack,
   onNext,
+  presentMode = false,
 }: {
   step: DemoStep
   stepIndex: number
@@ -304,10 +305,11 @@ function PresentationBar({
   title?: string
   onBack: () => void
   onNext: () => void
+  presentMode?: boolean
 }) {
   return (
-    <nav className="vigil-presentation-bar" aria-label="Demo progress">
-      <div className="vigil-bar-title">
+    <nav className={`vigil-presentation-bar ${presentMode ? 'is-present-mode' : ''}`} aria-label="Demo progress">
+      <div className="vigil-bar-title" aria-hidden={presentMode}>
         <span>{marker}</span>
         <strong>{title ?? (step.scene === 'intelligence' ? 'Program Safety Intelligence' : step.title)}</strong>
       </div>
@@ -320,9 +322,9 @@ function PresentationBar({
             />
           ))}
         </div>
-        <span>{progressIndex + 1}/{progressTotal}</span>
+        <span aria-hidden={presentMode}>{progressIndex + 1}/{progressTotal}</span>
       </div>
-      <div className="vigil-nav-actions">
+      <div className="vigil-nav-actions" aria-hidden={presentMode}>
         <button type="button" onClick={onBack} aria-label="Previous demo step">
           <ArrowLeft size={18} />
           Back
@@ -648,6 +650,7 @@ export function VigilDemoFrame({
   onNext,
   exportFrames = false,
   autoplay = false,
+  presentMode = false,
   progressIndex,
   progressTotal,
   progressMarkers,
@@ -661,6 +664,7 @@ export function VigilDemoFrame({
   onNext: () => void
   exportFrames?: boolean
   autoplay?: boolean
+  presentMode?: boolean
   progressIndex?: number
   progressTotal?: number
   progressMarkers?: string[]
@@ -673,7 +677,7 @@ export function VigilDemoFrame({
 
   return (
     <main
-      className={`vigil-standalone-page scene-${step.scene} focus-${step.focus} ${exportFrames ? 'is-export' : ''} ${autoplay ? 'is-autoplay' : ''}`}
+      className={`vigil-standalone-page scene-${step.scene} focus-${step.focus} ${exportFrames ? 'is-export' : ''} ${autoplay ? 'is-autoplay' : ''} ${presentMode ? 'is-present-mode' : ''}`}
       data-testid="vigil-demo"
     >
       <div className="vigil-background" />
@@ -694,6 +698,7 @@ export function VigilDemoFrame({
               title={title}
               onBack={onBack}
               onNext={onNext}
+              presentMode={presentMode}
             />
             <Header step={step} />
             <CurrentScene key={step.id} step={step} />

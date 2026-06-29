@@ -49,10 +49,24 @@ const extendedTrustChips = [
   'Causality not assessed by AI',
 ]
 
-const demoDurations = [6200, 5200, 6200, 5600, 5800, 6200, 7200, 7000, 6600, 7000, 6000, 6000, 5800, 6200]
+const demoPitchIndices = [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13]
+const demoDurationsByIndex: Record<number, number> = {
+  2: 9000,
+  3: 9000,
+  4: 10000,
+  5: 6200,
+  6: 7000,
+  7: 7600,
+  8: 7000,
+  9: 7200,
+  10: 5600,
+  11: 6000,
+  12: 5600,
+  13: 5800,
+}
 
 function getDemoMarker(index: number) {
-  if (index < 5) return `4${String.fromCharCode(65 + index)}`
+  if (index < 5) return `4${String.fromCharCode(63 + index)}`
   if (index < 10) return `5${String.fromCharCode(65 + index - 5)}`
   return `6${String.fromCharCode(65 + index - 10)}`
 }
@@ -65,30 +79,30 @@ function getDemoLabel(index: number) {
 }
 
 const pitchSteps: PitchStep[] = [
-  { kind: 'cover', marker: '1', label: 'Cover', duration: 6500 },
-  { kind: 'problem', marker: '2', label: 'Problem', duration: 9500 },
+  { kind: 'cover', marker: '1', label: 'Cover', duration: 5000 },
+  { kind: 'problem', marker: '2', label: 'Problem', duration: 21000 },
   {
     kind: 'solution',
     marker: '3',
     label: 'Solution',
-    duration: 10500,
+    duration: 21000,
     speakerCue: 'Let me show that through one safety lead.',
   },
-  ...vigilDemoSteps.map((_, index) => ({
+  ...demoPitchIndices.map((index) => ({
     kind: 'demo' as const,
     marker: getDemoMarker(index),
     label: getDemoLabel(index),
-    duration: demoDurations[index] ?? 6000,
+    duration: demoDurationsByIndex[index] ?? 6000,
     demoIndex: index,
   })),
   {
     kind: 'ask',
     marker: '7',
     label: 'The Ask',
-    duration: 12000,
+    duration: 20000,
     speakerCue: 'That is the workflow we want to validate with pharma partners.',
   },
-  { kind: 'why', marker: '8', label: 'Why VYVA', duration: 10500 },
+  { kind: 'why', marker: '8', label: 'Why VYVA', duration: 17000 },
 ]
 
 const progressMarkers = pitchSteps.map((step) => step.marker)
@@ -104,7 +118,7 @@ function parsePitchStep(value: string | null, offset: number) {
 
 function getPitchQueryMode() {
   if (typeof window === 'undefined') {
-    return { autoplay: false, exportFrames: false, fixedFrame: null, initialStep: 0 }
+    return { autoplay: false, exportFrames: false, fixedFrame: null, initialStep: 0, presentMode: false }
   }
 
   const params = new URLSearchParams(window.location.search)
@@ -117,6 +131,7 @@ function getPitchQueryMode() {
     exportFrames,
     fixedFrame: explicitFrame ?? (exportFrames ? requestedStep : null),
     initialStep: requestedStep ?? explicitFrame ?? 0,
+    presentMode: params.get('present') === '1',
   }
 }
 
@@ -149,15 +164,21 @@ function PitchBar({
   stepIndex,
   onBack,
   onNext,
+  presentMode,
 }: {
   step: PitchStep
   stepIndex: number
   onBack: () => void
   onNext: () => void
+  presentMode: boolean
 }) {
   return (
-    <nav className="vigil-pitch-bar" aria-label="Pitch progress">
-      <div className="vigil-pitch-bar-title">
+    <nav
+      className={`vigil-pitch-bar ${presentMode ? 'is-present-mode' : ''}`}
+      aria-label="Pitch progress"
+      style={{ '--progress-count': pitchSteps.length } as CSSProperties}
+    >
+      <div className="vigil-pitch-bar-title" aria-hidden={presentMode}>
         <span>{step.marker}</span>
         <strong>{step.label}</strong>
       </div>
@@ -170,9 +191,9 @@ function PitchBar({
             />
           ))}
         </div>
-        <span>{stepIndex + 1}/{pitchSteps.length}</span>
+        <span aria-hidden={presentMode}>{stepIndex + 1}/{pitchSteps.length}</span>
       </div>
-      <div className="vigil-pitch-nav-actions">
+      <div className="vigil-pitch-nav-actions" aria-hidden={presentMode}>
         <button type="button" onClick={onBack} aria-label="Previous slide">
           <ArrowLeft size={19} />
           Back
@@ -193,6 +214,7 @@ function PitchFrame({
   onBack,
   onNext,
   frameRef,
+  presentMode,
   children,
 }: {
   step: PitchStep
@@ -201,10 +223,11 @@ function PitchFrame({
   onBack: () => void
   onNext: () => void
   frameRef: RefObject<HTMLElement | null>
+  presentMode: boolean
   children: ReactNode
 }) {
   return (
-    <main className={`vigil-pitch-page slide-${step.kind}`} data-testid="vigil-pitch">
+    <main className={`vigil-pitch-page slide-${step.kind} ${presentMode ? 'is-present-mode' : ''}`} data-testid="vigil-pitch">
       <div className="vigil-pitch-background" />
       <div className="vigil-pitch-scale-stage">
         <div style={{ width: `${1920 * scale}px`, height: `${1080 * scale}px` }}>
@@ -213,7 +236,7 @@ function PitchFrame({
             className="vigil-pitch-canvas"
             style={{ transform: `scale(${scale})`, transformOrigin: 'top left' }}
           >
-            <PitchBar step={step} stepIndex={stepIndex} onBack={onBack} onNext={onNext} />
+            <PitchBar step={step} stepIndex={stepIndex} onBack={onBack} onNext={onNext} presentMode={presentMode} />
             <div className="vigil-pitch-slide-wrap" key={`${step.marker}-${step.kind}`}>
               {children}
             </div>
@@ -319,16 +342,24 @@ function SolutionSlide() {
         <h1>VIGIL uses AI to turn patient conversations into structured safety leads.</h1>
         <span>AI handles early AE intake. Human PV review stays in control.</span>
       </div>
-      <div className="vigil-solution-flow">
-        <div className="vigil-flow-node vigil-conversation-node">
-          <div className="vigil-flow-icon">
-            <Users size={44} />
-          </div>
-          <h2>Patient conversation</h2>
-          <div className="vigil-channel-grid">
+      <div className="vigil-solution-flow is-clean">
+        <div className="vigil-conversation-node">
+          <div className="vigil-conversation-orbit" aria-hidden="true">
             {channels.map(({ label, icon: Icon }) => (
               <span key={label}>
-                <Icon size={20} />
+                <Icon size={21} />
+              </span>
+            ))}
+          </div>
+          <div className="vigil-conversation-core">
+            <Users size={48} />
+            <h2>Patient conversation</h2>
+            <p>"New pill made me dizzy."</p>
+          </div>
+          <div className="vigil-channel-row">
+            {channels.map(({ label, icon: Icon }) => (
+              <span key={label}>
+                <Icon size={18} />
                 {label}
               </span>
             ))}
@@ -338,7 +369,10 @@ function SolutionSlide() {
         <div className="vigil-ai-zone">
           <div className="vigil-ai-zone-title">
             <Sparkles size={34} />
-            <strong>AI-powered intake</strong>
+            <div>
+              <strong>AI-powered intake</strong>
+              <span>Ask. Extract. Enrich.</span>
+            </div>
           </div>
           {aiSteps.map(([title, detail]) => (
             <div key={title} className="vigil-ai-step">
@@ -348,22 +382,24 @@ function SolutionSlide() {
           ))}
         </div>
         <ArrowRight className="vigil-flow-arrow" size={42} />
-        <div className="vigil-flow-node vigil-human-node">
-          <div className="vigil-flow-icon is-gold">
-            <ShieldCheck size={44} />
+        <div className="vigil-review-output-group">
+          <div className="vigil-human-node">
+            <div className="vigil-flow-icon is-gold">
+              <ShieldCheck size={40} />
+            </div>
+            <h2>Human PV Review</h2>
+            <p>Reviewer controls assessment, follow-up, and handoff.</p>
           </div>
-          <h2>Human PV Review</h2>
-          <p>Reviewer controls assessment, follow-up, and handoff.</p>
-        </div>
-        <ArrowRight className="vigil-flow-arrow" size={42} />
-        <div className="vigil-output-card">
-          <MiniTitle icon={ClipboardCheck}>Structured safety lead</MiniTitle>
-          <div className="vigil-output-fields">
-            <span>Dizziness</span>
-            <span>Missed dose</span>
-            <span>Near-fall risk</span>
+          <ArrowRight className="vigil-flow-arrow is-vertical" size={36} />
+          <div className="vigil-output-card">
+            <MiniTitle icon={ClipboardCheck}>Structured safety lead</MiniTitle>
+            <div className="vigil-output-fields">
+              <span>Dizziness</span>
+              <span>Missed dose</span>
+              <span>Near-fall risk</span>
+            </div>
+            <strong>Human PV review required</strong>
           </div>
-          <strong>Human PV review required</strong>
         </div>
       </div>
       <TrustRow chips={['Human-in-the-loop', 'Sponsor-controlled', 'No autonomous reporting']} />
@@ -378,21 +414,21 @@ function AskSlide() {
       title: 'Validate',
       kicker: 'Controlled validation',
       time: '6-8 weeks',
-      detail: 'Anonymized AE case examples, PSP scenarios, sponsor-approved follow-up scripts, human reviewer scoring.',
+      detail: 'Anonymized AE cases, PSP scenarios, sponsor scripts, reviewer scoring.',
       icon: ClipboardCheck,
     },
     {
       title: 'Pilot',
       kicker: 'Limited live pilot',
       time: '12-16 weeks',
-      detail: 'Adult patient or PSP cohort, conversation-based AE intake, caregiver input, human PV review.',
+      detail: 'Adult patient or PSP cohort, conversation intake, caregiver input, human PV review.',
       icon: Activity,
     },
     {
       title: 'Deploy',
       kicker: 'Flexible commercial models',
       time: 'Sponsor-fit',
-      detail: 'Paid validation pilot, SaaS deployment, enterprise license, integration, or managed service support.',
+      detail: 'Paid pilot, SaaS, enterprise license, integration, or managed service support.',
       icon: PackageCheck,
     },
   ]
@@ -582,6 +618,7 @@ export default function VigilPitchScreen() {
           onNext={goNext}
           exportFrames={queryMode.exportFrames}
           autoplay={queryMode.autoplay}
+          presentMode={queryMode.presentMode}
           progressIndex={stepIndex}
           progressTotal={pitchSteps.length}
           progressMarkers={progressMarkers}
@@ -604,6 +641,7 @@ export default function VigilPitchScreen() {
       onBack={goBack}
       onNext={goNext}
       frameRef={frameRef}
+      presentMode={queryMode.presentMode}
     >
       <CurrentPitchSlide step={step} />
     </PitchFrame>

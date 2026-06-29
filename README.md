@@ -57,10 +57,16 @@ Open the final 3-minute browser pitch. The route is standalone, uses mock data o
 /vigil-pitch
 ```
 
+Clean presentation mode:
+
+```text
+/vigil-pitch?present=1
+```
+
 Autoplay recording mode:
 
 ```text
-/vigil-pitch?autoplay=1
+/vigil-pitch?present=1&autoplay=1
 ```
 
 Presenter controls:
@@ -77,7 +83,7 @@ Direct frame links use a zero-based `frame` query:
 
 ```text
 /vigil-pitch?export=frames&frame=0
-/vigil-pitch?export=frames&frame=18
+/vigil-pitch?export=frames&frame=16
 ```
 
 Optional PNG frame capture:
@@ -89,7 +95,7 @@ node scripts/capture-pitch-demo.mjs http://localhost:3002/vigil-pitch ../vigil-p
 
 Recording MP4:
 
-1. Open `/vigil-pitch?autoplay=1` in Chrome or Edge.
+1. Open `/vigil-pitch?present=1&autoplay=1` in Chrome or Edge.
 2. Press `F` for fullscreen.
 3. Use OBS, Loom, QuickTime, or PowerPoint screen recording.
 4. For presenter-led recording, use `/vigil-pitch` and advance manually with Space/right arrow.

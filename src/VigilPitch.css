@@ -99,7 +99,7 @@
 .vigil-pitch-progress-rail {
   display: grid;
   width: 100%;
-  grid-template-columns: repeat(19, minmax(0, 1fr));
+  grid-template-columns: repeat(var(--progress-count, 19), minmax(0, 1fr));
   gap: 8px;
 }
 
@@ -145,6 +145,46 @@
   border-color: #7d3fc8;
   background: #7d3fc8;
   color: #fff;
+}
+
+.vigil-pitch-page.is-present-mode .vigil-pitch-canvas {
+  border-color: transparent;
+  border-radius: 0;
+  box-shadow: none;
+}
+
+.vigil-pitch-bar.is-present-mode {
+  height: 24px;
+  grid-template-columns: minmax(0, 1fr);
+  padding: 10px 250px 0;
+  border-bottom: 0;
+  background: transparent;
+}
+
+.vigil-pitch-bar.is-present-mode .vigil-pitch-bar-title,
+.vigil-pitch-bar.is-present-mode .vigil-pitch-nav-actions,
+.vigil-pitch-bar.is-present-mode .vigil-pitch-progress > span {
+  display: none;
+}
+
+.vigil-pitch-bar.is-present-mode .vigil-pitch-progress {
+  width: 100%;
+  justify-self: center;
+  opacity: 0.42;
+}
+
+.vigil-pitch-bar.is-present-mode .vigil-pitch-progress-rail {
+  gap: 7px;
+}
+
+.vigil-pitch-bar.is-present-mode .vigil-pitch-progress-rail i {
+  height: 4px;
+  background: rgba(226, 215, 250, 0.22);
+}
+
+.vigil-pitch-bar.is-present-mode .vigil-pitch-progress-rail i.is-complete,
+.vigil-pitch-bar.is-present-mode .vigil-pitch-progress-rail i.is-current {
+  background: rgba(246, 173, 27, 0.72);
 }
 
 .vigil-pitch-slide-wrap {
@@ -495,6 +535,13 @@
   margin-top: 8px;
 }
 
+.vigil-solution-flow.is-clean {
+  grid-template-columns: 360px 48px 500px 48px 660px;
+  gap: 20px;
+  align-items: center;
+  margin-top: 20px;
+}
+
 .vigil-flow-node,
 .vigil-ai-zone,
 .vigil-output-card {
@@ -558,6 +605,112 @@
   font-weight: 850;
 }
 
+.vigil-conversation-node {
+  position: relative;
+  min-height: 420px;
+  display: grid;
+  align-content: center;
+  justify-items: center;
+  gap: 24px;
+  border: 1px solid rgba(226, 215, 250, 0.17);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.07);
+  padding: 28px;
+}
+
+.vigil-conversation-orbit {
+  position: absolute;
+  inset: 28px;
+  pointer-events: none;
+}
+
+.vigil-conversation-orbit span {
+  position: absolute;
+  width: 54px;
+  height: 54px;
+  display: grid;
+  place-items: center;
+  border: 1px solid rgba(226, 215, 250, 0.16);
+  border-radius: 999px;
+  background: rgba(126, 63, 200, 0.2);
+  color: #efe4ff;
+}
+
+.vigil-conversation-orbit span:nth-child(1) {
+  top: 10px;
+  left: 38px;
+}
+
+.vigil-conversation-orbit span:nth-child(2) {
+  top: 34px;
+  right: 24px;
+}
+
+.vigil-conversation-orbit span:nth-child(3) {
+  bottom: 42px;
+  left: 30px;
+}
+
+.vigil-conversation-orbit span:nth-child(4) {
+  right: 44px;
+  bottom: 22px;
+}
+
+.vigil-conversation-core {
+  width: 230px;
+  min-height: 230px;
+  display: grid;
+  align-content: center;
+  justify-items: center;
+  gap: 16px;
+  border: 1px solid rgba(246, 173, 27, 0.38);
+  border-radius: 999px;
+  background: radial-gradient(circle, rgba(126, 63, 200, 0.34), rgba(7, 6, 17, 0.72));
+  text-align: center;
+}
+
+.vigil-conversation-core svg {
+  color: #f6ad1b;
+}
+
+.vigil-conversation-core h2,
+.vigil-human-node h2 {
+  margin: 0;
+  color: #fff;
+  font-size: 31px;
+  font-weight: 950;
+  line-height: 1.05;
+}
+
+.vigil-conversation-core p,
+.vigil-human-node p {
+  margin: 0;
+  color: #ded8eb;
+  font-size: 21px;
+  font-weight: 780;
+  line-height: 1.25;
+}
+
+.vigil-channel-row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+}
+
+.vigil-channel-row span {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  border: 1px solid rgba(226, 215, 250, 0.14);
+  border-radius: 999px;
+  background: rgba(7, 6, 17, 0.42);
+  padding: 8px 12px;
+  color: #ded8eb;
+  font-size: 16px;
+  font-weight: 850;
+}
+
 .vigil-flow-arrow {
   align-self: center;
   justify-self: center;
@@ -578,6 +731,17 @@
   color: #f4ecff;
   font-size: 26px;
   font-weight: 950;
+}
+
+.vigil-ai-zone-title div {
+  display: grid;
+  gap: 2px;
+}
+
+.vigil-ai-zone-title span {
+  color: #c8b8e7;
+  font-size: 17px;
+  font-weight: 850;
 }
 
 .vigil-ai-step {
@@ -603,8 +767,27 @@
 }
 
 .vigil-human-node {
+  display: grid;
+  gap: 18px;
+  align-content: center;
   border-color: rgba(246, 173, 27, 0.5);
   background: rgba(246, 173, 27, 0.11);
+}
+
+.vigil-review-output-group {
+  display: grid;
+  grid-template-columns: 260px 36px minmax(0, 1fr);
+  gap: 16px;
+  align-items: stretch;
+}
+
+.vigil-review-output-group .vigil-human-node,
+.vigil-review-output-group .vigil-output-card {
+  min-height: 420px;
+}
+
+.vigil-flow-arrow.is-vertical {
+  align-self: center;
 }
 
 .vigil-output-card {
@@ -641,7 +824,7 @@
 }
 
 .vigil-output-card strong {
-  width: max-content;
+  width: 100%;
   max-width: 100%;
   border-radius: 999px;
   background: rgba(246, 173, 27, 0.18);
@@ -649,6 +832,7 @@
   color: #ffe7b1;
   font-size: 17px;
   font-weight: 950;
+  text-align: center;
 }
 
 .vigil-ask-slide {
@@ -664,7 +848,7 @@
 .vigil-ask-card {
   position: relative;
   display: grid;
-  min-height: 332px;
+  min-height: 282px;
   gap: 14px;
   align-content: start;
   border: 1px solid rgba(226, 215, 250, 0.18);
@@ -735,7 +919,8 @@
 
 .vigil-ask-card p {
   color: #ded8eb;
-  font-size: 21px;
+  max-width: 440px;
+  font-size: 20px;
   font-weight: 760;
   line-height: 1.28;
 }
@@ -853,10 +1038,12 @@
 
 .vigil-final-line {
   margin-top: auto;
+  border-top: 1px solid rgba(246, 173, 27, 0.38);
+  padding-top: 28px;
   color: #fff;
-  font-size: 40px;
+  font-size: 58px;
   font-weight: 1000;
-  line-height: 1.12;
+  line-height: 1.03;
 }
 
 .vigil-pitch-speaker-note,
