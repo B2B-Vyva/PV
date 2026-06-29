@@ -1,0 +1,871 @@
+.vigil-pitch-page {
+  position: fixed;
+  inset: 0;
+  overflow: hidden;
+  background: #070611;
+  color: #fff;
+  font-family:
+    Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  letter-spacing: 0;
+}
+
+.vigil-pitch-page *,
+.vigil-pitch-page *::before,
+.vigil-pitch-page *::after {
+  box-sizing: border-box;
+}
+
+.vigil-pitch-background {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(120deg, rgba(126, 63, 200, 0.26), transparent 34%),
+    linear-gradient(245deg, rgba(246, 173, 27, 0.13), transparent 30%),
+    repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.035) 0 1px, transparent 1px 80px),
+    repeating-linear-gradient(0deg, rgba(255, 255, 255, 0.025) 0 1px, transparent 1px 80px),
+    #070611;
+}
+
+.vigil-pitch-scale-stage {
+  position: relative;
+  display: grid;
+  width: 100%;
+  height: 100%;
+  place-items: center;
+  overflow: hidden;
+}
+
+.vigil-pitch-canvas {
+  position: relative;
+  width: 1920px;
+  height: 1080px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  border: 1px solid rgba(226, 215, 250, 0.18);
+  border-radius: 8px;
+  background: rgba(7, 6, 17, 0.9);
+  box-shadow: 0 34px 120px rgba(0, 0, 0, 0.48);
+}
+
+.vigil-pitch-bar {
+  position: relative;
+  z-index: 3;
+  height: 68px;
+  display: grid;
+  grid-template-columns: 310px minmax(0, 1fr) 290px;
+  align-items: center;
+  gap: 24px;
+  padding: 0 28px;
+  border-bottom: 1px solid rgba(226, 215, 250, 0.14);
+  background: rgba(245, 240, 252, 0.96);
+  color: #2b2138;
+}
+
+.vigil-pitch-bar-title {
+  display: inline-flex;
+  align-items: center;
+  gap: 14px;
+  min-width: 0;
+}
+
+.vigil-pitch-bar-title span {
+  width: 36px;
+  height: 36px;
+  display: grid;
+  flex: 0 0 36px;
+  place-items: center;
+  border-radius: 999px;
+  background: #efe4ff;
+  color: #7d3fc8;
+  font-size: 15px;
+  font-weight: 950;
+}
+
+.vigil-pitch-bar-title strong {
+  overflow: hidden;
+  font-size: 18px;
+  font-weight: 900;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.vigil-pitch-progress {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+
+.vigil-pitch-progress-rail {
+  display: grid;
+  width: 100%;
+  grid-template-columns: repeat(19, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.vigil-pitch-progress-rail i {
+  height: 7px;
+  border-radius: 999px;
+  background: #ddd5e9;
+}
+
+.vigil-pitch-progress-rail i.is-complete,
+.vigil-pitch-progress-rail i.is-current {
+  background: #7d3fc8;
+}
+
+.vigil-pitch-progress span {
+  color: #6b6077;
+  font-size: 15px;
+  font-weight: 900;
+  white-space: nowrap;
+}
+
+.vigil-pitch-nav-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+.vigil-pitch-nav-actions button {
+  height: 40px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  border: 1px solid #d9d0e6;
+  border-radius: 999px;
+  background: #fff;
+  padding: 0 18px;
+  color: #2b2138;
+  font-size: 16px;
+  font-weight: 900;
+}
+
+.vigil-pitch-nav-actions button:last-child {
+  border-color: #7d3fc8;
+  background: #7d3fc8;
+  color: #fff;
+}
+
+.vigil-pitch-slide-wrap {
+  position: relative;
+  z-index: 1;
+  flex: 1;
+  min-height: 0;
+}
+
+.vigil-pitch-slide {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  padding: 56px 70px 58px;
+}
+
+.vigil-pitch-slide * {
+  min-width: 0;
+}
+
+.vigil-slide-heading {
+  display: grid;
+  gap: 12px;
+  max-width: 1390px;
+}
+
+.vigil-slide-heading.is-centered {
+  max-width: none;
+  text-align: center;
+}
+
+.vigil-slide-heading p,
+.vigil-slide-heading h1,
+.vigil-slide-heading span,
+.vigil-bottom-line,
+.vigil-cover-line,
+.vigil-cover-descriptor,
+.vigil-cover-footer,
+.vigil-problem-stat p,
+.vigil-problem-stat small,
+.vigil-late-card p,
+.vigil-flow-node h2,
+.vigil-flow-node p,
+.vigil-ai-step p,
+.vigil-output-card strong,
+.vigil-ask-card h2,
+.vigil-ask-card p,
+.vigil-why-core,
+.vigil-proof-card h2,
+.vigil-proof-card p,
+.vigil-proof-card small,
+.vigil-final-line {
+  margin: 0;
+}
+
+.vigil-slide-heading p {
+  color: #f6ad1b;
+  font-size: 17px;
+  font-weight: 950;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.vigil-slide-heading h1 {
+  color: #fff;
+  font-size: 64px;
+  font-weight: 950;
+  line-height: 1.03;
+}
+
+.vigil-slide-heading span {
+  max-width: 1180px;
+  color: #ded8eb;
+  font-size: 28px;
+  font-weight: 760;
+  line-height: 1.24;
+}
+
+.vigil-bottom-line {
+  margin-top: auto;
+  border-left: 7px solid #f6ad1b;
+  padding: 18px 24px;
+  background: rgba(255, 255, 255, 0.07);
+  color: #fff8df;
+  font-size: 31px;
+  font-weight: 900;
+  line-height: 1.18;
+}
+
+.vigil-pitch-trust-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.vigil-pitch-trust-row span {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  border: 1px solid rgba(226, 215, 250, 0.18);
+  border-radius: 999px;
+  background: rgba(245, 240, 252, 0.1);
+  padding: 10px 14px;
+  color: #f2eaff;
+  font-size: 16px;
+  font-weight: 900;
+}
+
+.vigil-cover-slide {
+  justify-content: center;
+  padding: 88px 100px 76px;
+}
+
+.vigil-cover-slide::before {
+  content: "";
+  position: absolute;
+  inset: 68px 0 0;
+  background:
+    linear-gradient(90deg, transparent 0 64%, rgba(126, 63, 200, 0.16) 64% 100%),
+    linear-gradient(180deg, transparent 0 78%, rgba(246, 173, 27, 0.08) 78% 100%);
+  pointer-events: none;
+}
+
+.vigil-cover-content {
+  position: relative;
+  z-index: 1;
+  width: 1160px;
+  display: grid;
+  gap: 28px;
+}
+
+.vigil-brand-kicker {
+  width: max-content;
+  margin: 0;
+  border: 1px solid rgba(246, 173, 27, 0.36);
+  border-radius: 999px;
+  background: rgba(246, 173, 27, 0.12);
+  padding: 9px 16px;
+  color: #ffe3a4;
+  font-size: 18px;
+  font-weight: 950;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+.vigil-cover-content h1 {
+  margin: 0;
+  color: #fff;
+  font-size: 188px;
+  font-weight: 1000;
+  line-height: 0.86;
+}
+
+.vigil-cover-line {
+  max-width: 1120px;
+  color: #fff;
+  font-size: 58px;
+  font-weight: 950;
+  line-height: 1.03;
+}
+
+.vigil-cover-descriptor {
+  max-width: 930px;
+  color: #ded8eb;
+  font-size: 31px;
+  font-weight: 760;
+  line-height: 1.28;
+}
+
+.vigil-cover-footer {
+  position: absolute;
+  left: 100px;
+  right: 100px;
+  bottom: 62px;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-top: 1px solid rgba(226, 215, 250, 0.16);
+  padding-top: 24px;
+  color: #c8bfdb;
+  font-size: 22px;
+  font-weight: 850;
+}
+
+.vigil-cover-footer strong {
+  color: #f6ad1b;
+}
+
+.vigil-cover-signal {
+  position: absolute;
+  top: 180px;
+  right: 100px;
+  width: 520px;
+  height: 640px;
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  align-items: end;
+  gap: 18px;
+  opacity: 0.8;
+}
+
+.vigil-cover-signal span {
+  display: block;
+  height: 42%;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 8px;
+  background: linear-gradient(180deg, rgba(126, 63, 200, 0.78), rgba(246, 173, 27, 0.26));
+  animation: vigilPitchSignal 3600ms ease-in-out infinite;
+  animation-delay: var(--delay);
+}
+
+.vigil-cover-signal span:nth-child(3n + 1) {
+  height: 68%;
+}
+
+.vigil-cover-signal span:nth-child(4n + 2) {
+  height: 88%;
+}
+
+.vigil-cover-signal span:nth-child(5n) {
+  height: 55%;
+}
+
+@keyframes vigilPitchSignal {
+  0%,
+  100% {
+    transform: scaleY(0.92);
+    opacity: 0.58;
+  }
+
+  50% {
+    transform: scaleY(1);
+    opacity: 1;
+  }
+}
+
+.vigil-problem-grid {
+  flex: 1;
+  min-height: 0;
+  display: grid;
+  grid-template-columns: 0.95fr 1fr 0.76fr;
+  gap: 28px;
+  align-items: center;
+  padding: 42px 0 36px;
+}
+
+.vigil-problem-stat,
+.vigil-patient-timeline,
+.vigil-late-card {
+  border: 1px solid rgba(226, 215, 250, 0.17);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.07);
+}
+
+.vigil-problem-stat {
+  display: grid;
+  gap: 20px;
+  padding: 36px;
+}
+
+.vigil-problem-stat span {
+  color: #f6ad1b;
+  font-size: 186px;
+  font-weight: 1000;
+  line-height: 0.88;
+}
+
+.vigil-problem-stat p {
+  color: #fff;
+  font-size: 34px;
+  font-weight: 950;
+  line-height: 1.1;
+}
+
+.vigil-problem-stat small {
+  color: #ded8eb;
+  font-size: 22px;
+  font-weight: 760;
+  line-height: 1.26;
+}
+
+.vigil-patient-timeline {
+  display: grid;
+  gap: 16px;
+  padding: 28px;
+}
+
+.vigil-patient-timeline div {
+  display: grid;
+  grid-template-columns: 112px minmax(0, 1fr);
+  align-items: center;
+  gap: 18px;
+  border: 1px solid rgba(226, 215, 250, 0.13);
+  border-radius: 8px;
+  background: rgba(7, 6, 17, 0.46);
+  padding: 22px 24px;
+}
+
+.vigil-patient-timeline strong {
+  color: #b591ff;
+  font-size: 24px;
+  font-weight: 950;
+}
+
+.vigil-patient-timeline span {
+  color: #fff;
+  font-size: 27px;
+  font-weight: 850;
+  line-height: 1.18;
+}
+
+.vigil-late-card {
+  display: grid;
+  align-content: center;
+  gap: 18px;
+  min-height: 360px;
+  padding: 34px;
+  border-color: rgba(246, 173, 27, 0.5);
+  background: rgba(246, 173, 27, 0.12);
+}
+
+.vigil-late-card p {
+  color: #ffe7b1;
+  font-size: 26px;
+  font-weight: 900;
+}
+
+.vigil-late-card strong {
+  color: #fff;
+  font-size: 74px;
+  font-weight: 1000;
+  line-height: 0.98;
+}
+
+.vigil-solution-slide {
+  gap: 28px;
+}
+
+.vigil-solution-flow {
+  display: grid;
+  grid-template-columns: 300px 52px 470px 52px 280px 52px 320px;
+  gap: 18px;
+  align-items: stretch;
+  margin-top: 8px;
+}
+
+.vigil-flow-node,
+.vigil-ai-zone,
+.vigil-output-card {
+  border: 1px solid rgba(226, 215, 250, 0.17);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.07);
+  padding: 24px;
+}
+
+.vigil-flow-node {
+  display: grid;
+  align-content: center;
+  justify-items: start;
+  gap: 20px;
+}
+
+.vigil-flow-icon {
+  width: 78px;
+  height: 78px;
+  display: grid;
+  place-items: center;
+  border-radius: 8px;
+  background: rgba(126, 63, 200, 0.3);
+  color: #efe4ff;
+}
+
+.vigil-flow-icon.is-gold {
+  background: rgba(246, 173, 27, 0.18);
+  color: #ffe7b1;
+}
+
+.vigil-flow-node h2 {
+  color: #fff;
+  font-size: 31px;
+  font-weight: 950;
+  line-height: 1.05;
+}
+
+.vigil-flow-node p {
+  color: #ded8eb;
+  font-size: 22px;
+  font-weight: 760;
+  line-height: 1.24;
+}
+
+.vigil-channel-grid {
+  display: grid;
+  width: 100%;
+  gap: 10px;
+}
+
+.vigil-channel-grid span {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  border-radius: 8px;
+  background: rgba(7, 6, 17, 0.42);
+  padding: 11px 12px;
+  color: #ded8eb;
+  font-size: 17px;
+  font-weight: 850;
+}
+
+.vigil-flow-arrow {
+  align-self: center;
+  justify-self: center;
+  color: #f6ad1b;
+}
+
+.vigil-ai-zone {
+  display: grid;
+  gap: 12px;
+  border-color: rgba(181, 145, 255, 0.62);
+  background: rgba(126, 63, 200, 0.18);
+}
+
+.vigil-ai-zone-title {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: #f4ecff;
+  font-size: 26px;
+  font-weight: 950;
+}
+
+.vigil-ai-step {
+  border: 1px solid rgba(226, 215, 250, 0.18);
+  border-radius: 8px;
+  background: rgba(7, 6, 17, 0.36);
+  padding: 16px;
+}
+
+.vigil-ai-step span {
+  display: block;
+  margin-bottom: 7px;
+  color: #f6ad1b;
+  font-size: 21px;
+  font-weight: 950;
+}
+
+.vigil-ai-step p {
+  color: #fff;
+  font-size: 19px;
+  font-weight: 790;
+  line-height: 1.22;
+}
+
+.vigil-human-node {
+  border-color: rgba(246, 173, 27, 0.5);
+  background: rgba(246, 173, 27, 0.11);
+}
+
+.vigil-output-card {
+  display: grid;
+  align-content: center;
+  gap: 18px;
+  border-color: rgba(103, 232, 249, 0.36);
+  background: rgba(8, 47, 73, 0.2);
+}
+
+.vigil-mini-title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: #cffafe;
+  font-size: 16px;
+  font-weight: 950;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.vigil-output-fields {
+  display: grid;
+  gap: 10px;
+}
+
+.vigil-output-fields span {
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.1);
+  padding: 14px 16px;
+  color: #fff;
+  font-size: 24px;
+  font-weight: 950;
+}
+
+.vigil-output-card strong {
+  width: max-content;
+  max-width: 100%;
+  border-radius: 999px;
+  background: rgba(246, 173, 27, 0.18);
+  padding: 10px 14px;
+  color: #ffe7b1;
+  font-size: 17px;
+  font-weight: 950;
+}
+
+.vigil-ask-slide {
+  gap: 30px;
+}
+
+.vigil-ask-path {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 24px;
+}
+
+.vigil-ask-card {
+  position: relative;
+  display: grid;
+  min-height: 332px;
+  gap: 14px;
+  align-content: start;
+  border: 1px solid rgba(226, 215, 250, 0.18);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.07);
+  padding: 30px;
+}
+
+.vigil-ask-card:not(:last-child)::before {
+  content: ">";
+  position: absolute;
+  top: 50%;
+  right: -30px;
+  z-index: 2;
+  width: 36px;
+  height: 36px;
+  display: grid;
+  place-items: center;
+  border: 1px solid rgba(246, 173, 27, 0.34);
+  border-radius: 999px;
+  background: #070611;
+  color: #f6ad1b;
+  font-size: 25px;
+  font-weight: 1000;
+  transform: translateY(-50%);
+}
+
+.vigil-ask-card::after {
+  content: "";
+  position: absolute;
+  left: 30px;
+  right: 30px;
+  top: 0;
+  height: 7px;
+  border-radius: 0 0 8px 8px;
+  background: #7d3fc8;
+}
+
+.vigil-ask-card:nth-child(3)::after {
+  background: #f6ad1b;
+}
+
+.vigil-ask-card > svg {
+  color: #efe4ff;
+}
+
+.vigil-ask-number {
+  position: absolute;
+  top: 24px;
+  right: 26px;
+  color: rgba(255, 255, 255, 0.12);
+  font-size: 82px;
+  font-weight: 1000;
+  line-height: 1;
+}
+
+.vigil-ask-card h2 {
+  color: #fff;
+  font-size: 42px;
+  font-weight: 1000;
+}
+
+.vigil-ask-card strong {
+  color: #ffe7b1;
+  font-size: 22px;
+  font-weight: 950;
+}
+
+.vigil-ask-card p {
+  color: #ded8eb;
+  font-size: 21px;
+  font-weight: 760;
+  line-height: 1.28;
+}
+
+.vigil-success-metrics {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.vigil-success-metrics span {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  border-radius: 8px;
+  background: rgba(126, 63, 200, 0.18);
+  padding: 15px 16px;
+  color: #f4ecff;
+  font-size: 19px;
+  font-weight: 900;
+}
+
+.vigil-success-metrics svg {
+  flex: 0 0 auto;
+  color: #f6ad1b;
+}
+
+.vigil-why-slide {
+  gap: 30px;
+}
+
+.vigil-why-core {
+  max-width: 1440px;
+  color: #fff;
+  font-size: 42px;
+  font-weight: 950;
+  line-height: 1.12;
+}
+
+.vigil-proof-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 24px;
+}
+
+.vigil-proof-card {
+  display: grid;
+  min-height: 308px;
+  gap: 16px;
+  align-content: start;
+  border: 1px solid rgba(226, 215, 250, 0.18);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.07);
+  padding: 30px;
+}
+
+.vigil-proof-card span {
+  width: 62px;
+  height: 62px;
+  display: grid;
+  place-items: center;
+  border-radius: 8px;
+  background: rgba(126, 63, 200, 0.26);
+  color: #efe4ff;
+}
+
+.vigil-proof-card:nth-child(2) span {
+  background: rgba(246, 173, 27, 0.16);
+  color: #ffe7b1;
+}
+
+.vigil-proof-card h2 {
+  color: #fff;
+  font-size: 34px;
+  font-weight: 1000;
+}
+
+.vigil-proof-card p {
+  color: #fff;
+  font-size: 24px;
+  font-weight: 900;
+  line-height: 1.18;
+}
+
+.vigil-proof-card small {
+  color: #d9d1e8;
+  font-size: 20px;
+  font-weight: 730;
+  line-height: 1.28;
+}
+
+.vigil-proof-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 28px;
+  border: 1px solid rgba(246, 173, 27, 0.42);
+  border-radius: 8px;
+  background: rgba(246, 173, 27, 0.1);
+  padding: 22px 28px;
+}
+
+.vigil-proof-footer strong {
+  color: #ffe7b1;
+  font-size: 25px;
+  font-weight: 950;
+}
+
+.vigil-proof-footer span {
+  color: #fff;
+  font-size: 24px;
+  font-weight: 850;
+  text-align: right;
+}
+
+.vigil-final-line {
+  margin-top: auto;
+  color: #fff;
+  font-size: 40px;
+  font-weight: 1000;
+  line-height: 1.12;
+}
+
+.vigil-pitch-speaker-note,
+.vigil-pitch-hidden-context {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  white-space: nowrap;
+}

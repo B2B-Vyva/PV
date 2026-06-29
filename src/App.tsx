@@ -52,6 +52,9 @@ import {
   demoProjects,
   demoSignals,
 } from './lib/demoData'
+import PitchDemoScreen from './PitchDemo'
+import VigilDemoScreen from './VigilDemo'
+import VigilPitchScreen from './VigilPitch'
 import type {
   AuditEntry,
   Evidence,
@@ -316,18 +319,23 @@ function Shell({
   children: ReactNode
 }) {
   const location = useLocation()
-  const isPitchRoute = location.pathname.startsWith('/pitch/') || location.search.includes('mode=pitch')
+  const isPitchDemoRoute = location.pathname.startsWith('/pitch-demo')
+  const isPitchRoute = location.pathname.startsWith('/pitch/') || isPitchDemoRoute || location.search.includes('mode=pitch')
   const isCaptureRoute = location.pathname.startsWith('/pitch/capture')
   const isDashboardRoute = location.pathname.startsWith('/dashboard')
   const isWorkbenchRoute = location.pathname.startsWith('/leads/') || location.pathname.startsWith('/pitch/workbench')
-  const title = isCaptureRoute
+  const title = isPitchDemoRoute
+    ? 'VIGIL Pitch Demo'
+    : isCaptureRoute
     ? 'Conversation Intake'
     : isDashboardRoute
       ? 'Program Safety Intelligence'
     : isWorkbenchRoute
       ? 'Safety Lead Workbench'
       : navItems.find((item) => location.pathname.startsWith(item.path))?.label || 'Safety Leads'
-  const subtitle = isDashboardRoute
+  const subtitle = isPitchDemoRoute
+    ? 'Manual 3-minute pharmacovigilance product demo'
+    : isDashboardRoute
     ? 'Early patient-generated safety intelligence for sponsor-led review'
     : `Project: ${demoProjects[0].name}`
   const environmentLabel = session.demo ? 'Controlled test environment' : 'Database live'
@@ -1887,6 +1895,7 @@ function AppRoutes({
       <Route path="/signals" element={<SignalScreen signals={signals} setSignals={setSignals} />} />
       <Route path="/inbox" element={<InboxScreen interactions={interactions} />} />
       <Route path="/pitch/capture" element={<CapturePitchScreen />} />
+      <Route path="/pitch-demo" element={<PitchDemoScreen />} />
       <Route path="/followups" element={<FollowupsScreen followups={followups} setFollowups={setFollowups} />} />
       <Route path="/reports" element={<ReportsScreen />} />
       <Route path="/projects" element={<ProjectsScreen projects={projects} setProjects={setProjects} />} />
@@ -1894,6 +1903,70 @@ function AppRoutes({
       <Route path="/compliance" element={<ComplianceScreen audit={audit} />} />
       <Route path="*" element={<Navigate to="/leads" replace />} />
     </Routes>
+  )
+}
+
+function AppContent({
+  session,
+  setSession,
+  leads,
+  setLeads,
+  signals,
+  setSignals,
+  interactions,
+  followups,
+  setFollowups,
+  projects,
+  setProjects,
+  patients,
+  audit,
+}: {
+  session: Session | null
+  setSession: Dispatch<SetStateAction<Session | null>>
+  leads: SafetyLead[]
+  setLeads: Dispatch<SetStateAction<SafetyLead[]>>
+  signals: Signal[]
+  setSignals: Dispatch<SetStateAction<Signal[]>>
+  interactions: Interaction[]
+  followups: Followup[]
+  setFollowups: Dispatch<SetStateAction<Followup[]>>
+  projects: Project[]
+  setProjects: Dispatch<SetStateAction<Project[]>>
+  patients: Patient[]
+  audit: AuditEntry[]
+}) {
+  const location = useLocation()
+
+  if (location.pathname.startsWith('/vigil-pitch')) {
+    return <VigilPitchScreen />
+  }
+
+  if (location.pathname.startsWith('/vigil-demo')) {
+    return <VigilDemoScreen />
+  }
+
+  if (location.pathname.startsWith('/pitch-demo')) {
+    return <PitchDemoScreen />
+  }
+
+  if (!session) return <LoginScreen onLogin={setSession} />
+
+  return (
+    <Shell session={session} onLogout={() => setSession(null)}>
+      <AppRoutes
+        leads={leads}
+        setLeads={setLeads}
+        signals={signals}
+        setSignals={setSignals}
+        interactions={interactions}
+        followups={followups}
+        setFollowups={setFollowups}
+        projects={projects}
+        setProjects={setProjects}
+        patients={patients}
+        audit={audit}
+      />
+    </Shell>
   )
 }
 
@@ -1912,25 +1985,23 @@ function App() {
   const [followups, setFollowups] = useState(demoFollowups)
   const [projects, setProjects] = useState(demoProjects)
 
-  if (!session) return <LoginScreen onLogin={setSession} />
-
   return (
     <BrowserRouter>
-      <Shell session={session} onLogout={() => setSession(null)}>
-        <AppRoutes
-          leads={leads}
-          setLeads={setLeads}
-          signals={signals}
-          setSignals={setSignals}
-          interactions={demoInteractions}
-          followups={followups}
-          setFollowups={setFollowups}
-          projects={projects}
-          setProjects={setProjects}
-          patients={demoPatients}
-          audit={demoAudit}
-        />
-      </Shell>
+      <AppContent
+        session={session}
+        setSession={setSession}
+        leads={leads}
+        setLeads={setLeads}
+        signals={signals}
+        setSignals={setSignals}
+        interactions={demoInteractions}
+        followups={followups}
+        setFollowups={setFollowups}
+        projects={projects}
+        setProjects={setProjects}
+        patients={demoPatients}
+        audit={demoAudit}
+      />
     </BrowserRouter>
   )
 }
