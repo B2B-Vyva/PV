@@ -397,7 +397,7 @@ function IntakeScene({ step }: { step: DemoStep }) {
             ))}
           </div>
         </Panel>
-        <div className="vigil-context-grid vigil-stage-frame vigil-stage-context">
+        <div className={`vigil-context-grid vigil-stage-frame vigil-stage-context ${isFocus(step, 'context') ? 'is-active-stage' : ''}`}>
           <QuoteCard
             label="Patient adds"
             quote="I skipped it yesterday because I was afraid I would fall."

@@ -2263,6 +2263,12 @@
   box-shadow: none;
 }
 
+.vigil-standalone-page.is-present-mode .vigil-bottom-stack,
+.vigil-standalone-page.is-present-mode .vigil-mode-badge,
+.vigil-standalone-page.is-present-mode .vigil-autoplay-badge {
+  display: none;
+}
+
 .vigil-presentation-bar.is-present-mode {
   min-height: 22px;
   grid-template-columns: minmax(0, 1fr);
@@ -2408,6 +2414,77 @@
     0 0 0 3px rgba(124, 58, 237, 0.18),
     0 20px 42px rgba(66, 45, 93, 0.1);
   transform: scale(1.018);
+}
+
+.vigil-standalone-page.is-present-mode .vigil-stage-frame {
+  transition:
+    opacity 260ms ease,
+    filter 260ms ease,
+    transform 260ms ease,
+    box-shadow 260ms ease,
+    border-color 260ms ease;
+}
+
+.vigil-standalone-page.is-present-mode .vigil-stage-frame:not(.is-active):not(.is-active-stage) {
+  opacity: 0.45;
+  filter: saturate(0.5);
+  transform: scale(0.985);
+}
+
+.vigil-standalone-page.is-present-mode .vigil-stage-frame.is-active,
+.vigil-standalone-page.is-present-mode .vigil-stage-frame.is-active-stage {
+  z-index: 3;
+  border-color: #7c3aed;
+  box-shadow:
+    0 0 0 4px rgba(124, 58, 237, 0.24),
+    0 0 0 8px rgba(246, 173, 27, 0.12),
+    0 24px 56px rgba(71, 44, 102, 0.18);
+  opacity: 1;
+  filter: none;
+  transform: scale(1.026);
+}
+
+.vigil-standalone-page.is-present-mode:not(.is-export) .vigil-stage-frame.is-active,
+.vigil-standalone-page.is-present-mode:not(.is-export) .vigil-stage-frame.is-active-stage {
+  animation: none !important;
+}
+
+.vigil-standalone-page.is-present-mode:not(.is-export)
+  .vigil-stage-frame.is-active
+  :is(
+    .vigil-touchpoint-list div,
+    .vigil-question-list div,
+    .vigil-data-row,
+    .vigil-lead-callout,
+    .vigil-evidence-quote,
+    .vigil-structured-grid div,
+    .vigil-missing-list div,
+    .vigil-control-fields div,
+    .vigil-action-row button,
+    .vigil-latest-clue,
+    .vigil-kpi-grid div,
+    .vigil-pipeline div,
+    .vigil-pipeline b,
+    .vigil-patterns div,
+    .vigil-sponsor-note,
+    .vigil-compliance-grid div
+  ),
+.vigil-standalone-page.is-present-mode:not(.is-export)
+  .vigil-stage-frame.is-active-stage
+  :is(.vigil-quote-card) {
+  opacity: 1 !important;
+  transform: none !important;
+  animation: none !important;
+}
+
+.vigil-standalone-page.is-present-mode:not(.is-export) .vigil-stage-frame.is-active .vigil-question-list div::before,
+.vigil-standalone-page.is-present-mode:not(.is-export) .vigil-stage-frame.is-active .vigil-evidence-quote::after {
+  animation-delay: 0ms !important;
+}
+
+.vigil-standalone-page.is-present-mode .vigil-stage-context.is-active-stage .vigil-quote-card {
+  border-color: #7c3aed;
+  box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.18);
 }
 
 .vigil-mini-label,
@@ -2614,6 +2691,22 @@
   pointer-events: none;
   visibility: hidden;
   opacity: 0;
+}
+
+.vigil-standalone-page.is-present-mode:not(.is-export).focus-workbench-open
+  :is(.vigil-stage-source-evidence, .vigil-stage-structured-lead, .vigil-stage-missing-fields, .vigil-stage-review-controls),
+.vigil-standalone-page.is-present-mode:not(.is-export).focus-source-evidence
+  :is(.vigil-stage-structured-lead, .vigil-stage-missing-fields, .vigil-stage-review-controls),
+.vigil-standalone-page.is-present-mode:not(.is-export).focus-structured-lead
+  :is(.vigil-stage-missing-fields, .vigil-stage-review-controls),
+.vigil-standalone-page.is-present-mode:not(.is-export).focus-missing-fields .vigil-stage-review-controls,
+.vigil-standalone-page.is-present-mode:not(.is-export).focus-program-kpis
+  :is(.vigil-stage-pipeline, .vigil-stage-patterns, .vigil-stage-compliance),
+.vigil-standalone-page.is-present-mode:not(.is-export).focus-pipeline :is(.vigil-stage-patterns, .vigil-stage-compliance),
+.vigil-standalone-page.is-present-mode:not(.is-export).focus-patterns .vigil-stage-compliance {
+  pointer-events: none;
+  visibility: visible;
+  opacity: 0.34;
 }
 
 .vigil-standalone-page.is-present-mode:not(.is-export).focus-vigil-asks .vigil-intake-grid {

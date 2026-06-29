@@ -153,6 +153,11 @@
   box-shadow: none;
 }
 
+.vigil-pitch-page.is-present-mode .vigil-pitch-speaker-note,
+.vigil-pitch-page.is-present-mode .vigil-pitch-hidden-context {
+  display: none;
+}
+
 .vigil-pitch-bar.is-present-mode {
   height: 24px;
   grid-template-columns: minmax(0, 1fr);
@@ -170,15 +175,15 @@
 .vigil-pitch-bar.is-present-mode .vigil-pitch-progress {
   width: 100%;
   justify-self: center;
-  opacity: 0.42;
+  opacity: 0.34;
 }
 
 .vigil-pitch-bar.is-present-mode .vigil-pitch-progress-rail {
-  gap: 7px;
+  gap: 8px;
 }
 
 .vigil-pitch-bar.is-present-mode .vigil-pitch-progress-rail i {
-  height: 4px;
+  height: 3px;
   background: rgba(226, 215, 250, 0.22);
 }
 
@@ -536,10 +541,10 @@
 }
 
 .vigil-solution-flow.is-clean {
-  grid-template-columns: 360px 48px 500px 48px 660px;
+  grid-template-columns: 350px 44px 420px 44px 340px 44px minmax(0, 390px);
   gap: 20px;
   align-items: center;
-  margin-top: 20px;
+  margin-top: 24px;
 }
 
 .vigil-flow-node,
@@ -607,15 +612,14 @@
 
 .vigil-conversation-node {
   position: relative;
-  min-height: 420px;
+  min-height: 392px;
   display: grid;
   align-content: center;
   justify-items: center;
-  gap: 24px;
   border: 1px solid rgba(226, 215, 250, 0.17);
   border-radius: 8px;
   background: rgba(255, 255, 255, 0.07);
-  padding: 28px;
+  padding: 30px;
 }
 
 .vigil-conversation-orbit {
@@ -657,8 +661,8 @@
 }
 
 .vigil-conversation-core {
-  width: 230px;
-  min-height: 230px;
+  width: 258px;
+  min-height: 258px;
   display: grid;
   align-content: center;
   justify-items: center;
@@ -677,38 +681,19 @@
 .vigil-human-node h2 {
   margin: 0;
   color: #fff;
-  font-size: 31px;
+  font-size: 36px;
   font-weight: 950;
   line-height: 1.05;
+  letter-spacing: 0;
 }
 
 .vigil-conversation-core p,
 .vigil-human-node p {
   margin: 0;
   color: #ded8eb;
-  font-size: 21px;
+  font-size: 22px;
   font-weight: 780;
   line-height: 1.25;
-}
-
-.vigil-channel-row {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 10px;
-}
-
-.vigil-channel-row span {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  border: 1px solid rgba(226, 215, 250, 0.14);
-  border-radius: 999px;
-  background: rgba(7, 6, 17, 0.42);
-  padding: 8px 12px;
-  color: #ded8eb;
-  font-size: 16px;
-  font-weight: 850;
 }
 
 .vigil-flow-arrow {
@@ -719,7 +704,9 @@
 
 .vigil-ai-zone {
   display: grid;
-  gap: 12px;
+  min-height: 392px;
+  align-content: center;
+  gap: 16px;
   border-color: rgba(181, 145, 255, 0.62);
   background: rgba(126, 63, 200, 0.18);
 }
@@ -729,8 +716,9 @@
   align-items: center;
   gap: 12px;
   color: #f4ecff;
-  font-size: 26px;
+  font-size: 39px;
   font-weight: 950;
+  line-height: 1.05;
 }
 
 .vigil-ai-zone-title div {
@@ -748,14 +736,13 @@
   border: 1px solid rgba(226, 215, 250, 0.18);
   border-radius: 8px;
   background: rgba(7, 6, 17, 0.36);
-  padding: 16px;
+  padding: 18px 20px;
 }
 
 .vigil-ai-step span {
   display: block;
-  margin-bottom: 7px;
   color: #f6ad1b;
-  font-size: 21px;
+  font-size: 31px;
   font-weight: 950;
 }
 
@@ -768,10 +755,14 @@
 
 .vigil-human-node {
   display: grid;
-  gap: 18px;
+  min-height: 392px;
+  gap: 20px;
   align-content: center;
   border-color: rgba(246, 173, 27, 0.5);
   background: rgba(246, 173, 27, 0.11);
+  border: 1px solid rgba(246, 173, 27, 0.5);
+  border-radius: 8px;
+  padding: 28px;
 }
 
 .vigil-review-output-group {
@@ -781,21 +772,24 @@
   align-items: stretch;
 }
 
-.vigil-review-output-group .vigil-human-node,
-.vigil-review-output-group .vigil-output-card {
-  min-height: 420px;
-}
-
-.vigil-flow-arrow.is-vertical {
-  align-self: center;
-}
-
 .vigil-output-card {
   display: grid;
+  min-height: 392px;
   align-content: center;
   gap: 18px;
   border-color: rgba(103, 232, 249, 0.36);
   background: rgba(8, 47, 73, 0.2);
+}
+
+.vigil-output-title {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 0;
+  color: #e6fbff;
+  font-size: 34px;
+  font-weight: 1000;
+  line-height: 1.08;
 }
 
 .vigil-mini-title {
@@ -819,7 +813,7 @@
   background: rgba(255, 255, 255, 0.1);
   padding: 14px 16px;
   color: #fff;
-  font-size: 24px;
+  font-size: 23px;
   font-weight: 950;
 }
 
@@ -848,13 +842,13 @@
 .vigil-ask-card {
   position: relative;
   display: grid;
-  min-height: 282px;
-  gap: 14px;
+  min-height: 292px;
+  gap: 10px;
   align-content: start;
   border: 1px solid rgba(226, 215, 250, 0.18);
   border-radius: 8px;
   background: rgba(255, 255, 255, 0.07);
-  padding: 30px;
+  padding: 34px 30px 28px;
 }
 
 .vigil-ask-card:not(:last-child)::before {
@@ -893,6 +887,7 @@
 
 .vigil-ask-card > svg {
   color: #efe4ff;
+  opacity: 0.78;
 }
 
 .vigil-ask-number {
@@ -907,20 +902,21 @@
 
 .vigil-ask-card h2 {
   color: #fff;
-  font-size: 42px;
+  font-size: 68px;
   font-weight: 1000;
+  line-height: 0.98;
 }
 
 .vigil-ask-card strong {
   color: #ffe7b1;
-  font-size: 22px;
+  font-size: 21px;
   font-weight: 950;
 }
 
 .vigil-ask-card p {
   color: #ded8eb;
   max-width: 440px;
-  font-size: 20px;
+  font-size: 18px;
   font-weight: 760;
   line-height: 1.28;
 }
@@ -1038,12 +1034,13 @@
 
 .vigil-final-line {
   margin-top: auto;
-  border-top: 1px solid rgba(246, 173, 27, 0.38);
-  padding-top: 28px;
+  border-top: 3px solid rgba(246, 173, 27, 0.58);
+  background: linear-gradient(90deg, rgba(246, 173, 27, 0.11), transparent 78%);
+  padding: 22px 28px 4px 0;
   color: #fff;
-  font-size: 58px;
+  font-size: 66px;
   font-weight: 1000;
-  line-height: 1.03;
+  line-height: 1;
 }
 
 .vigil-pitch-speaker-note,

@@ -51,9 +51,9 @@ const extendedTrustChips = [
 
 const demoPitchIndices = [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13]
 const demoDurationsByIndex: Record<number, number> = {
-  2: 9000,
-  3: 9000,
-  4: 10000,
+  2: 1800,
+  3: 8000,
+  4: 9000,
   5: 6200,
   6: 7000,
   7: 7600,
@@ -323,17 +323,8 @@ function ProblemSlide() {
 }
 
 function SolutionSlide() {
-  const channels: Array<{ label: string; icon: IconComponent }> = [
-    { label: 'Mobile', icon: Smartphone },
-    { label: 'WhatsApp', icon: MessageCircle },
-    { label: 'App', icon: PhoneCall },
-    { label: 'Smart speaker', icon: Mic2 },
-  ]
-  const aiSteps = [
-    ['AI Ask', 'Sponsor-approved follow-up questions'],
-    ['AI Extract', 'Symptoms, meds, timing, missing fields'],
-    ['AI Enrich', 'Patient words, caregiver context, source evidence'],
-  ]
+  const channelIcons: IconComponent[] = [Smartphone, MessageCircle, PhoneCall, Mic2]
+  const aiSteps = ['Ask', 'Extract', 'Enrich']
 
   return (
     <section className="vigil-pitch-slide vigil-solution-slide">
@@ -345,8 +336,8 @@ function SolutionSlide() {
       <div className="vigil-solution-flow is-clean">
         <div className="vigil-conversation-node">
           <div className="vigil-conversation-orbit" aria-hidden="true">
-            {channels.map(({ label, icon: Icon }) => (
-              <span key={label}>
+            {channelIcons.map((Icon, index) => (
+              <span key={String(index)}>
                 <Icon size={21} />
               </span>
             ))}
@@ -356,50 +347,39 @@ function SolutionSlide() {
             <h2>Patient conversation</h2>
             <p>"New pill made me dizzy."</p>
           </div>
-          <div className="vigil-channel-row">
-            {channels.map(({ label, icon: Icon }) => (
-              <span key={label}>
-                <Icon size={18} />
-                {label}
-              </span>
-            ))}
-          </div>
         </div>
         <ArrowRight className="vigil-flow-arrow" size={42} />
         <div className="vigil-ai-zone">
           <div className="vigil-ai-zone-title">
             <Sparkles size={34} />
-            <div>
-              <strong>AI-powered intake</strong>
-              <span>Ask. Extract. Enrich.</span>
-            </div>
+            <strong>AI-powered intake</strong>
           </div>
-          {aiSteps.map(([title, detail]) => (
+          {aiSteps.map((title) => (
             <div key={title} className="vigil-ai-step">
               <span>{title}</span>
-              <p>{detail}</p>
             </div>
           ))}
         </div>
         <ArrowRight className="vigil-flow-arrow" size={42} />
-        <div className="vigil-review-output-group">
-          <div className="vigil-human-node">
-            <div className="vigil-flow-icon is-gold">
-              <ShieldCheck size={40} />
-            </div>
-            <h2>Human PV Review</h2>
-            <p>Reviewer controls assessment, follow-up, and handoff.</p>
+        <div className="vigil-human-node">
+          <div className="vigil-flow-icon is-gold">
+            <ShieldCheck size={40} />
           </div>
-          <ArrowRight className="vigil-flow-arrow is-vertical" size={36} />
-          <div className="vigil-output-card">
-            <MiniTitle icon={ClipboardCheck}>Structured safety lead</MiniTitle>
-            <div className="vigil-output-fields">
-              <span>Dizziness</span>
-              <span>Missed dose</span>
-              <span>Near-fall risk</span>
-            </div>
-            <strong>Human PV review required</strong>
+          <h2>Human PV review</h2>
+          <p>Sponsor-controlled assessment, follow-up, and handoff.</p>
+        </div>
+        <ArrowRight className="vigil-flow-arrow" size={42} />
+        <div className="vigil-output-card">
+          <h2 className="vigil-output-title">
+            <ClipboardCheck size={34} />
+            Structured safety lead
+          </h2>
+          <div className="vigil-output-fields">
+            <span>Dizziness</span>
+            <span>Missed dose</span>
+            <span>Near-fall risk</span>
           </div>
+          <strong>Human PV review required</strong>
         </div>
       </div>
       <TrustRow chips={['Human-in-the-loop', 'Sponsor-controlled', 'No autonomous reporting']} />
@@ -525,15 +505,6 @@ function WhySlide() {
       </div>
       <p className="vigil-final-line">VYVA gives patients a voice. VIGIL makes that voice usable for pharmacovigilance.</p>
     </section>
-  )
-}
-
-function MiniTitle({ icon: Icon, children }: { icon: IconComponent; children: ReactNode }) {
-  return (
-    <div className="vigil-mini-title">
-      <Icon size={22} />
-      <span>{children}</span>
-    </div>
   )
 }
 
