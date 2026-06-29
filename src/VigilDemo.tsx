@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
-import type { CSSProperties, ReactNode, RefObject } from 'react'
+import type { ReactNode, RefObject } from 'react'
 import {
   Activity,
   AlertTriangle,
@@ -49,6 +49,7 @@ const autoplayDurationsMs: Record<string, number> = {
   '3B': 6000,
   '3C': 5800,
   '3D': 6200,
+  '3E': 6200,
 }
 
 const touchpoints: Array<{ label: string; clue: string; icon: IconComponent }> = [
@@ -100,13 +101,36 @@ const missingFields = [
   ['Concomitant medications', 'recommended'],
 ]
 
-const pipeline = [
-  ['Urgent review', '4'],
-  ['AI draft structured', '28'],
-  ['Needs follow-up', '11'],
-  ['In medical review', '6'],
-  ['Ready for handoff', '9'],
-  ['Exported / closed', '18'],
+const safetyIndicators = [
+  ['Signal clusters', '5', 'Dizziness, missed dose, near-fall themes'],
+  ['Reviewer priority', '4', 'Same-day human PV review'],
+  ['Follow-up gaps', '11', 'Onset, outcome, medical attention'],
+  ['Field completeness', '82%', 'Available PV intake evidence'],
+]
+
+const complianceMetrics = [
+  ['Consent coverage', '94%'],
+  ['Audit trail capture', '100%'],
+  ['SOP-mapped flows', '12'],
+  ['Export traceability', '100%'],
+]
+
+const intelligenceResources: Array<{ label: string; detail: string; icon: IconComponent }> = [
+  { label: 'Pattern review', detail: 'Sponsor-led trend watch', icon: Activity },
+  { label: 'Follow-up queue', detail: 'Missing PV essentials', icon: MessageCircle },
+  { label: 'Evidence pack', detail: 'Source words and context', icon: FileText },
+  { label: 'Compliance center', detail: 'Consent, audit, SOPs', icon: ShieldCheck },
+  { label: 'Line listing', detail: 'CSV / E2B-ready export', icon: FileJson },
+  { label: 'Model logs', detail: 'Prompt and extraction trace', icon: Bot },
+]
+
+const automationActions: Array<{ label: string; detail: string; icon: IconComponent }> = [
+  { label: 'Request follow-up', detail: 'Ask only missing PV fields', icon: MessageCircle },
+  { label: 'Assign reviewer', detail: 'Route urgent cases to human PV', icon: Users },
+  { label: 'Build evidence pack', detail: 'Bundle source, context, audit trail', icon: FileText },
+  { label: 'Map SOP', detail: 'Apply sponsor workflow controls', icon: PackageCheck },
+  { label: 'Prepare handoff', detail: 'Export sponsor-ready case packet', icon: FileJson },
+  { label: 'Log compliance', detail: 'Consent, role, model, decision trace', icon: ShieldCheck },
 ]
 
 const patterns = [
@@ -294,6 +318,7 @@ function PresentationBar({
   title,
   onBack,
   onNext,
+  presentMode = false,
 }: {
   step: DemoStep
   stepIndex: number
@@ -304,10 +329,11 @@ function PresentationBar({
   title?: string
   onBack: () => void
   onNext: () => void
+  presentMode?: boolean
 }) {
   return (
-    <nav className="vigil-presentation-bar" aria-label="Demo progress">
-      <div className="vigil-bar-title">
+    <nav className={`vigil-presentation-bar ${presentMode ? 'is-present-mode' : ''}`} aria-label="Demo progress">
+      <div className="vigil-bar-title" aria-hidden={presentMode}>
         <span>{marker}</span>
         <strong>{title ?? (step.scene === 'intelligence' ? 'Program Safety Intelligence' : step.title)}</strong>
       </div>
@@ -320,9 +346,9 @@ function PresentationBar({
             />
           ))}
         </div>
-        <span>{progressIndex + 1}/{progressTotal}</span>
+        <span aria-hidden={presentMode}>{progressIndex + 1}/{progressTotal}</span>
       </div>
-      <div className="vigil-nav-actions">
+      <div className="vigil-nav-actions" aria-hidden={presentMode}>
         <button type="button" onClick={onBack} aria-label="Previous demo step">
           <ArrowLeft size={18} />
           Back
@@ -395,7 +421,7 @@ function IntakeScene({ step }: { step: DemoStep }) {
             ))}
           </div>
         </Panel>
-        <div className="vigil-context-grid vigil-stage-frame vigil-stage-context">
+        <div className={`vigil-context-grid vigil-stage-frame vigil-stage-context ${isFocus(step, 'context') ? 'is-active-stage' : ''}`}>
           <QuoteCard
             label="Patient adds"
             quote="I skipped it yesterday because I was afraid I would fall."
@@ -555,20 +581,35 @@ function IntelligenceScene({ step }: { step: DemoStep }) {
           </div>
         </Panel>
 
-        <Panel active={isFocus(step, 'pipeline')} className="vigil-stage-frame vigil-stage-pipeline">
+        <Panel active={isFocus(step, 'pipeline')} className="vigil-intelligence-panel vigil-stage-frame vigil-stage-pipeline">
           <div className="vigil-card-topline">
-            <MiniLabel>Safety pipeline</MiniLabel>
+            <MiniLabel>Safety intelligence cockpit</MiniLabel>
             <Activity size={28} />
           </div>
-          <div className="vigil-pipeline">
-            {pipeline.map(([label, value], index) => (
+          <div className="vigil-intelligence-metrics">
+            {safetyIndicators.map(([label, value, detail]) => (
+              <div key={label}>
+                <strong>{value}</strong>
+                <span>{label}</span>
+                <small>{detail}</small>
+              </div>
+            ))}
+          </div>
+          <div className="vigil-compliance-metrics">
+            {complianceMetrics.map(([label, value]) => (
               <div key={label}>
                 <span>{label}</span>
-                <i>
-                  <b style={{ '--bar-width': `${92 - index * 10}%` } as CSSProperties} />
-                </i>
                 <strong>{value}</strong>
               </div>
+            ))}
+          </div>
+          <div className="vigil-resource-strip" aria-label="Intelligence tools and resources">
+            {intelligenceResources.map(({ label, detail, icon: Icon }) => (
+              <button key={label} type="button">
+                <Icon size={16} />
+                <span>{label}</span>
+                <small>{detail}</small>
+              </button>
             ))}
           </div>
         </Panel>
@@ -603,6 +644,37 @@ function IntelligenceScene({ step }: { step: DemoStep }) {
           </div>
         </Panel>
       </div>
+
+      <Panel active={isFocus(step, 'automation')} className="vigil-automation-panel vigil-stage-frame vigil-stage-automation">
+        <div className="vigil-automation-hero">
+          <div>
+            <MiniLabel>Digital action center</MiniLabel>
+            <h2>Turn intelligence into traceable sponsor action.</h2>
+            <p>Operational buttons convert patient-generated safety intelligence into controlled PV workflow steps.</p>
+          </div>
+          <div className="vigil-automation-score">
+            <strong>96%</strong>
+            <span>Compliance-ready evidence</span>
+          </div>
+        </div>
+        <div className="vigil-automation-actions">
+          {automationActions.map(({ label, detail, icon: Icon }) => (
+            <button key={label} type="button">
+              <Icon size={22} />
+              <span>{label}</span>
+              <small>{detail}</small>
+            </button>
+          ))}
+        </div>
+        <div className="vigil-automation-flow" aria-label="Digitized safety workflow">
+          {['Patient clue', 'AI triage', 'Human PV review', 'Sponsor handoff'].map((item, index) => (
+            <span key={item}>
+              {item}
+              {index < 3 ? <ArrowRight size={16} /> : null}
+            </span>
+          ))}
+        </div>
+      </Panel>
     </div>
   )
 }
@@ -648,6 +720,7 @@ export function VigilDemoFrame({
   onNext,
   exportFrames = false,
   autoplay = false,
+  presentMode = false,
   progressIndex,
   progressTotal,
   progressMarkers,
@@ -661,6 +734,7 @@ export function VigilDemoFrame({
   onNext: () => void
   exportFrames?: boolean
   autoplay?: boolean
+  presentMode?: boolean
   progressIndex?: number
   progressTotal?: number
   progressMarkers?: string[]
@@ -673,7 +747,7 @@ export function VigilDemoFrame({
 
   return (
     <main
-      className={`vigil-standalone-page scene-${step.scene} focus-${step.focus} ${exportFrames ? 'is-export' : ''} ${autoplay ? 'is-autoplay' : ''}`}
+      className={`vigil-standalone-page scene-${step.scene} focus-${step.focus} ${exportFrames ? 'is-export' : ''} ${autoplay ? 'is-autoplay' : ''} ${presentMode ? 'is-present-mode' : ''}`}
       data-testid="vigil-demo"
     >
       <div className="vigil-background" />
@@ -694,6 +768,7 @@ export function VigilDemoFrame({
               title={title}
               onBack={onBack}
               onNext={onNext}
+              presentMode={presentMode}
             />
             <Header step={step} />
             <CurrentScene key={step.id} step={step} />

@@ -1936,8 +1936,10 @@ function AppContent({
   audit: AuditEntry[]
 }) {
   const location = useLocation()
+  const standalonePitchFile =
+    window.location.protocol === 'file:' && window.location.pathname.toLowerCase().endsWith('vigil-pitch.html')
 
-  if (location.pathname.startsWith('/vigil-pitch')) {
+  if (standalonePitchFile || location.pathname.startsWith('/vigil-pitch')) {
     return <VigilPitchScreen />
   }
 
