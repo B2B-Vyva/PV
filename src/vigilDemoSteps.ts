@@ -137,4 +137,13 @@ export const vigilDemoSteps: DemoStep[] = [
     takeaway: 'Keep evidence, roles, and auditability close.',
     focus: 'compliance',
   },
+  {
+    id: '3E',
+    scene: 'intelligence',
+    label: 'Action Center',
+    title: 'Program Safety Intelligence',
+    subtitle: 'Early patient-generated safety intelligence feeding sponsor-led signal review.',
+    takeaway: 'Turn safety intelligence into sponsor-ready digital action.',
+    focus: 'automation',
+  },
 ]

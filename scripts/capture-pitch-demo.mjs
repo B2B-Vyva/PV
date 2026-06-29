@@ -1,7 +1,7 @@
 import { mkdir } from 'node:fs/promises'
 import path from 'node:path'
 
-const totalSteps = 17
+const totalSteps = 18
 const baseUrl = process.argv[2] || 'http://localhost:3002/vigil-pitch'
 const outputDir = path.resolve(process.argv[3] || '../vigil-pitch-frames')
 

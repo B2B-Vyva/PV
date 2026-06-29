@@ -47,7 +47,7 @@ const extendedTrustChips = [
   'Causality not assessed by AI',
 ]
 
-const demoPitchIndices = [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13]
+const demoPitchIndices = [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14]
 const demoDurationsByIndex: Record<number, number> = {
   2: 1400,
   3: 6200,
@@ -61,6 +61,7 @@ const demoDurationsByIndex: Record<number, number> = {
   11: 6000,
   12: 5600,
   13: 5800,
+  14: 6400,
 }
 
 function getDemoMarker(index: number) {
@@ -104,6 +105,12 @@ const pitchSteps: PitchStep[] = [
 ]
 
 const progressMarkers = pitchSteps.map((step) => step.marker)
+const pitchTargetMs = 180000
+const medwatchPages = [
+  '/vigil-media/fda-3500b-page-1.png',
+  '/vigil-media/fda-3500b-page-2.png',
+  '/vigil-media/fda-3500b-page-3.png',
+]
 
 function clampPitchStep(value: number) {
   return Math.max(0, Math.min(pitchSteps.length - 1, value))
@@ -239,11 +246,72 @@ function PitchFrame({
             <div className="vigil-pitch-slide-wrap" key={`${step.marker}-${step.kind}`}>
               {children}
             </div>
+            <PresenterGuide stepIndex={stepIndex} presentMode={presentMode} />
             {step.speakerCue ? <p className="vigil-pitch-speaker-note">Presenter cue: {step.speakerCue}</p> : null}
           </section>
         </div>
       </div>
     </main>
+  )
+}
+
+function formatPitchTime(ms: number) {
+  const safeSeconds = Math.max(0, Math.ceil(ms / 1000))
+  const minutes = Math.floor(safeSeconds / 60)
+  const seconds = String(safeSeconds % 60).padStart(2, '0')
+  return `${minutes}:${seconds}`
+}
+
+function PresenterGuide({ stepIndex, presentMode }: { stepIndex: number; presentMode: boolean }) {
+  const [elapsedMs, setElapsedMs] = useState(0)
+  const startRef = useRef(0)
+
+  useEffect(() => {
+    if (!presentMode) return
+
+    startRef.current = window.performance.now()
+    setElapsedMs(0)
+
+    const timer = window.setInterval(() => {
+      setElapsedMs(window.performance.now() - startRef.current)
+    }, 250)
+
+    return () => window.clearInterval(timer)
+  }, [presentMode])
+
+  useEffect(() => {
+    if (!presentMode || stepIndex !== 0) return
+
+    startRef.current = window.performance.now()
+    setElapsedMs(0)
+  }, [presentMode, stepIndex])
+
+  if (!presentMode) return null
+
+  const remainingMs = Math.max(0, pitchTargetMs - elapsedMs)
+  const slideProgress = pitchSteps.length <= 1 ? 1 : stepIndex / (pitchSteps.length - 1)
+  const timeProgress = Math.min(1, elapsedMs / pitchTargetMs)
+
+  return (
+    <aside
+      className="vigil-presenter-guide"
+      aria-label="Presenter guide"
+      style={
+        {
+          '--slide-progress': `${slideProgress * 100}%`,
+          '--time-progress': `${timeProgress * 100}%`,
+        } as CSSProperties
+      }
+    >
+      <div className="vigil-presenter-time">
+        <span>{formatPitchTime(remainingMs)}</span>
+        <small>3 min</small>
+      </div>
+      <div className="vigil-presenter-rail" aria-hidden="true">
+        <i />
+      </div>
+      <strong>{stepIndex + 1}/{pitchSteps.length}</strong>
+    </aside>
   )
 }
 
@@ -269,7 +337,10 @@ function CoverSlide() {
         ))}
       </div>
       <div className="vigil-cover-content">
-        <p className="vigil-brand-kicker">powered by VYVA</p>
+        <div className="vigil-brand-kicker">
+          <span>Powered by VYVA</span>
+          <strong>Patient voice infrastructure for VIGIL</strong>
+        </div>
         <h1>VIGIL</h1>
         <p className="vigil-cover-line">Turning patient conversations into structured safety leads</p>
         <p className="vigil-cover-descriptor">AI-powered adverse-event intake and patient voice intelligence</p>
@@ -284,39 +355,31 @@ function CoverSlide() {
 }
 
 function ProblemSlide() {
-  const timeline = [
-    ['Day 1', '"This new pill makes me dizzy."'],
-    ['Day 3', 'Missed dose'],
-    ['Day 7', 'Near fall'],
-    ['Day 14', 'Hospital admission'],
-  ]
-
   return (
     <section className="vigil-pitch-slide vigil-problem-slide">
       <div className="vigil-slide-heading is-centered">
         <p>Upstream case discovery problem</p>
-        <h1>Pharmacovigilance is still highly intermediated.</h1>
+        <h1>Patient safety intake still starts with paperwork.</h1>
       </div>
-      <div className="vigil-problem-grid">
-        <div className="vigil-problem-stat">
-          <span>~95%</span>
-          <p>of FAERS reports reach FDA through manufacturers.</p>
-          <small>Only ~5% are submitted directly by consumers, healthcare professionals, and others.</small>
+      <div className="vigil-medwatch-stage" aria-label="FDA MedWatch form example">
+        <div className="vigil-medwatch-copy">
+          <span>Current reality</span>
+          <strong>Dense forms. Manual interpretation. Late context.</strong>
+          <p>The patient story is forced into static paperwork before the safety team can act.</p>
         </div>
-        <div className="vigil-patient-timeline">
-          {timeline.map(([day, event]) => (
-            <div key={day}>
-              <strong>{day}</strong>
-              <span>{event}</span>
-            </div>
+        <div className="vigil-medwatch-stack">
+          {medwatchPages.map((page, index) => (
+            <img
+              key={page}
+              src={page}
+              alt={index === 0 ? 'FDA MedWatch Consumer Voluntary Reporting form' : ''}
+              aria-hidden={index === 0 ? undefined : true}
+            />
           ))}
         </div>
-        <div className="vigil-late-card">
-          <p>Safety team receives</p>
-          <strong>late + incomplete</strong>
-        </div>
+        <p className="vigil-medwatch-callout">Archaic intake is still carrying modern pharmacovigilance.</p>
       </div>
-      <p className="vigil-bottom-line">The bottleneck is not just reporting. It is upstream case discovery and follow-up.</p>
+      <p className="vigil-bottom-line">The bottleneck is not just reporting. It is turning patient language into usable safety evidence.</p>
     </section>
   )
 }
@@ -342,9 +405,13 @@ function SolutionSlide() {
             ))}
           </div>
           <div className="vigil-conversation-core">
-            <Users size={48} />
-            <h2>Patient feedback</h2>
-            <p>"New pill made me dizzy."</p>
+            <video src="/vigil-media/patient-voice.mp4" autoPlay muted loop playsInline aria-hidden="true" />
+            <div className="vigil-patient-video-scrim" />
+            <div className="vigil-patient-video-copy">
+              <Users size={40} />
+              <h2>Patient feedback</h2>
+              <p>"This new pill is making me dizzy."</p>
+            </div>
           </div>
         </div>
         <ArrowRight className="vigil-flow-arrow" size={42} />
@@ -446,70 +513,89 @@ function AskSlide() {
   )
 }
 
-function WhySlide() {
-  const proofRows = [
+function WhySlide({ onStart }: { onStart: () => void }) {
+  const proofPillars: Array<{
+    title: string
+    sentence: string
+    keywords: string[]
+    icon: IconComponent
+  }> = [
     {
-      label: 'Existing VYVA infrastructure',
-      detail: 'Phone, app, WhatsApp, and caregiver channels already in place.',
+      title: 'AI patient voice',
+      sentence: 'Natural conversations across channels.',
+      keywords: ['Phone', 'App', 'WhatsApp', 'Desktop', 'Smart speaker-ready', 'Caregiver input'],
+      icon: MessageCircle,
     },
     {
-      label: 'Real-world deployment path',
-      detail: 'European Commission RURACTIVE pilot with German Red Cross / DRK as project partner.',
+      title: 'Safety context',
+      sentence: 'Richer clues than static forms.',
+      keywords: ['Medication routines', 'Symptom checks', 'Vitals', 'Falls', 'Mood changes', 'Caregiver alerts'],
+      icon: Activity,
     },
     {
-      label: 'PV operating model',
-      detail: 'Human review, sponsor-controlled handoff, and audit-ready evidence.',
+      title: 'Closed-loop workflow',
+      sentence: 'Action around the signal.',
+      keywords: ['Patient interface', 'Caregiver input', 'Operations console', 'Follow-up', 'Human review', 'Sponsor handoff'],
+      icon: PackageCheck,
     },
   ]
 
   return (
     <section className="vigil-pitch-slide vigil-why-slide">
-      <div className="vigil-why-executive">
-        <div className="vigil-why-message">
-          <p className="vigil-why-kicker">Why VYVA</p>
-          <h1>
-            VYVA gives patients
-            <br />a voice.
-          </h1>
-          <h2>
-            VIGIL makes that voice usable
-            <br />
-            for pharmacovigilance.
-          </h2>
-          <p className="vigil-why-subline">
-            Patient-generated safety intelligence, prepared for sponsor-led review.
+      <div className="vigil-why-header">
+        <div>
+          <p className="vigil-why-kicker">Execution foundation</p>
+          <h1>Why VYVA</h1>
+        </div>
+        <div className="vigil-why-opening">
+          <h2>VIGIL is not starting from zero.</h2>
+          <p>
+            VYVA already gives hard-to-reach patients a voice. VIGIL turns that voice into pharma-grade safety intake.
           </p>
         </div>
-        <aside className="vigil-why-proof-panel" aria-label="Execution foundation">
-          <p>Execution foundation</p>
-          <div className="vigil-why-proof-list">
-            {proofRows.map(({ label, detail }, index) => (
-              <article key={label}>
-                <span>{String(index + 1).padStart(2, '0')}</span>
-                <div>
-                  <strong>{label}</strong>
-                  <small>{detail}</small>
-                </div>
-              </article>
-            ))}
-          </div>
-        </aside>
       </div>
-      <div className="vigil-why-compliance">
-        <span>Human-in-the-loop</span>
-        <span>Sponsor-controlled</span>
-        <span>No autonomous reporting</span>
+
+      <div className="vigil-why-pillars" aria-label="VYVA proof pillars">
+        {proofPillars.map(({ title, sentence, keywords, icon: Icon }) => (
+          <article className="vigil-why-pillar" key={title}>
+            <div className="vigil-why-pillar-icon">
+              <Icon size={34} />
+            </div>
+            <h3>{title}</h3>
+            <p>{sentence}</p>
+            <div className="vigil-why-keywords">
+              {keywords.map((keyword) => (
+                <span key={keyword}>{keyword}</span>
+              ))}
+            </div>
+          </article>
+        ))}
+      </div>
+
+      <div className="vigil-why-proof-strip">
+        <strong>Real-world deployment foundation</strong>
+        <span>European Commission RURACTIVE pilot · German Red Cross / DRK project partner</span>
+      </div>
+
+      <div className="vigil-why-close-row">
+        <p className="vigil-why-final-line">
+          VYVA gives patients a voice. VIGIL makes that voice usable for pharmacovigilance.
+        </p>
+        <button className="vigil-why-start-button" type="button" onClick={onStart}>
+          Start
+          <ArrowRight size={24} />
+        </button>
       </div>
     </section>
   )
 }
 
-function CurrentPitchSlide({ step }: { step: PitchStep }) {
+function CurrentPitchSlide({ step, onStart }: { step: PitchStep; onStart: () => void }) {
   if (step.kind === 'cover') return <CoverSlide />
   if (step.kind === 'problem') return <ProblemSlide />
   if (step.kind === 'solution') return <SolutionSlide />
   if (step.kind === 'ask') return <AskSlide />
-  return <WhySlide />
+  return <WhySlide onStart={onStart} />
 }
 
 export default function VigilPitchScreen() {
@@ -611,7 +697,7 @@ export default function VigilPitchScreen() {
       frameRef={frameRef}
       presentMode={queryMode.presentMode}
     >
-      <CurrentPitchSlide step={step} />
+      <CurrentPitchSlide step={step} onStart={restart} />
     </PitchFrame>
   )
 }
