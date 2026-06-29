@@ -51,9 +51,9 @@ const extendedTrustChips = [
 
 const demoPitchIndices = [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13]
 const demoDurationsByIndex: Record<number, number> = {
-  2: 1800,
-  3: 8000,
-  4: 9000,
+  2: 1400,
+  3: 6200,
+  4: 7200,
   5: 6200,
   6: 7000,
   7: 7600,
@@ -125,13 +125,14 @@ function getPitchQueryMode() {
   const exportFrames = params.get('export') === 'frames'
   const explicitFrame = parsePitchStep(params.get('frame'), 0)
   const requestedStep = parsePitchStep(params.get('step'), -1)
+  const autoplay = params.get('autoplay') === '1'
 
   return {
-    autoplay: params.get('autoplay') === '1',
+    autoplay,
     exportFrames,
     fixedFrame: explicitFrame ?? (exportFrames ? requestedStep : null),
     initialStep: requestedStep ?? explicitFrame ?? 0,
-    presentMode: params.get('present') === '1',
+    presentMode: params.get('present') === '1' || autoplay,
   }
 }
 
@@ -330,8 +331,8 @@ function SolutionSlide() {
     <section className="vigil-pitch-slide vigil-solution-slide">
       <div className="vigil-slide-heading">
         <p>VIGIL powered by VYVA</p>
-        <h1>VIGIL uses AI to turn patient conversations into structured safety leads.</h1>
-        <span>AI handles early AE intake. Human PV review stays in control.</span>
+        <h1>Patient conversation becomes a structured safety lead.</h1>
+        <span>AI intake prepares the case. Human PV review stays in control.</span>
       </div>
       <div className="vigil-solution-flow is-clean">
         <div className="vigil-conversation-node">
@@ -352,7 +353,7 @@ function SolutionSlide() {
         <div className="vigil-ai-zone">
           <div className="vigil-ai-zone-title">
             <Sparkles size={34} />
-            <strong>AI-powered intake</strong>
+            <strong>AI intake</strong>
           </div>
           {aiSteps.map((title) => (
             <div key={title} className="vigil-ai-step">
@@ -374,11 +375,6 @@ function SolutionSlide() {
             <ClipboardCheck size={34} />
             Structured safety lead
           </h2>
-          <div className="vigil-output-fields">
-            <span>Dizziness</span>
-            <span>Missed dose</span>
-            <span>Near-fall risk</span>
-          </div>
           <strong>Human PV review required</strong>
         </div>
       </div>
@@ -394,29 +390,26 @@ function AskSlide() {
       title: 'Validate',
       kicker: 'Controlled validation',
       time: '6-8 weeks',
-      detail: 'Anonymized AE cases, PSP scenarios, sponsor scripts, reviewer scoring.',
+      detail: 'Sponsor scripts, PSP scenarios, reviewer scoring.',
       icon: ClipboardCheck,
     },
     {
       title: 'Pilot',
       kicker: 'Limited live pilot',
       time: '12-16 weeks',
-      detail: 'Adult patient or PSP cohort, conversation intake, caregiver input, human PV review.',
+      detail: 'Live cohort, caregiver input, human PV review.',
       icon: Activity,
     },
     {
       title: 'Deploy',
       kicker: 'Flexible commercial models',
       time: 'Sponsor-fit',
-      detail: 'Paid pilot, SaaS, enterprise license, integration, or managed service support.',
+      detail: 'Commercial model that fits the sponsor.',
       icon: PackageCheck,
     },
   ]
   const metrics = [
-    'Same-day safety lead routing',
-    'Better intake completeness',
-    'Less manual follow-up',
-    'Reviewer acceptance',
+    'Same-day routing',
     'Audit-ready workflow',
     'Earlier safety visibility',
   ]
@@ -540,15 +533,16 @@ export default function VigilPitchScreen() {
 
   useEffect(() => {
     if (!queryMode.autoplay || queryMode.fixedFrame !== null) return undefined
+    if (stepIndex >= pitchSteps.length - 1) return undefined
     const timer = window.setTimeout(() => {
       setManualIndex((index) => {
-        const nextIndex = index >= pitchSteps.length - 1 ? 0 : index + 1
+        const nextIndex = index >= pitchSteps.length - 1 ? index : index + 1
         writePitchStepToUrl(nextIndex)
         return nextIndex
       })
     }, step.duration)
     return () => window.clearTimeout(timer)
-  }, [queryMode.autoplay, queryMode.fixedFrame, step.duration])
+  }, [queryMode.autoplay, queryMode.fixedFrame, step.duration, stepIndex])
 
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {

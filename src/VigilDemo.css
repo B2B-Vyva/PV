@@ -2426,22 +2426,24 @@
 }
 
 .vigil-standalone-page.is-present-mode .vigil-stage-frame:not(.is-active):not(.is-active-stage) {
-  opacity: 0.45;
-  filter: saturate(0.5);
-  transform: scale(0.985);
+  opacity: 0.28;
+  filter: saturate(0.34);
+  transform: scale(0.972);
 }
 
 .vigil-standalone-page.is-present-mode .vigil-stage-frame.is-active,
 .vigil-standalone-page.is-present-mode .vigil-stage-frame.is-active-stage {
   z-index: 3;
-  border-color: #7c3aed;
+  border-color: #6d28d9;
   box-shadow:
-    0 0 0 4px rgba(124, 58, 237, 0.24),
-    0 0 0 8px rgba(246, 173, 27, 0.12),
-    0 24px 56px rgba(71, 44, 102, 0.18);
+    0 0 0 5px rgba(124, 58, 237, 0.3),
+    0 0 0 11px rgba(246, 173, 27, 0.18),
+    0 32px 78px rgba(71, 44, 102, 0.24);
+  outline: 2px solid rgba(246, 173, 27, 0.58);
+  outline-offset: 5px;
   opacity: 1;
   filter: none;
-  transform: scale(1.026);
+  transform: scale(1.038);
 }
 
 .vigil-standalone-page.is-present-mode:not(.is-export) .vigil-stage-frame.is-active,
@@ -2484,7 +2486,9 @@
 
 .vigil-standalone-page.is-present-mode .vigil-stage-context.is-active-stage .vigil-quote-card {
   border-color: #7c3aed;
-  box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.18);
+  box-shadow:
+    0 0 0 3px rgba(124, 58, 237, 0.22),
+    0 20px 44px rgba(71, 44, 102, 0.12);
 }
 
 .vigil-mini-label,
@@ -2530,6 +2534,7 @@
 
 .vigil-touchpoint-list strong,
 .vigil-quote-card p,
+.vigil-evidence-quote p,
 .vigil-agent-heading h2,
 .vigil-warning-heading h2,
 .vigil-data-row strong,
@@ -2706,7 +2711,7 @@
 .vigil-standalone-page.is-present-mode:not(.is-export).focus-patterns .vigil-stage-compliance {
   pointer-events: none;
   visibility: visible;
-  opacity: 0.34;
+  opacity: 0.24;
 }
 
 .vigil-standalone-page.is-present-mode:not(.is-export).focus-vigil-asks .vigil-intake-grid {
