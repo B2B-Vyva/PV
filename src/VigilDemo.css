@@ -2446,44 +2446,6 @@
   transform: scale(1.038);
 }
 
-.vigil-standalone-page.is-present-mode:not(.is-export) .vigil-stage-frame.is-active,
-.vigil-standalone-page.is-present-mode:not(.is-export) .vigil-stage-frame.is-active-stage {
-  animation: none !important;
-}
-
-.vigil-standalone-page.is-present-mode:not(.is-export)
-  .vigil-stage-frame.is-active
-  :is(
-    .vigil-touchpoint-list div,
-    .vigil-question-list div,
-    .vigil-data-row,
-    .vigil-lead-callout,
-    .vigil-evidence-quote,
-    .vigil-structured-grid div,
-    .vigil-missing-list div,
-    .vigil-control-fields div,
-    .vigil-action-row button,
-    .vigil-latest-clue,
-    .vigil-kpi-grid div,
-    .vigil-pipeline div,
-    .vigil-pipeline b,
-    .vigil-patterns div,
-    .vigil-sponsor-note,
-    .vigil-compliance-grid div
-  ),
-.vigil-standalone-page.is-present-mode:not(.is-export)
-  .vigil-stage-frame.is-active-stage
-  :is(.vigil-quote-card) {
-  opacity: 1 !important;
-  transform: none !important;
-  animation: none !important;
-}
-
-.vigil-standalone-page.is-present-mode:not(.is-export) .vigil-stage-frame.is-active .vigil-question-list div::before,
-.vigil-standalone-page.is-present-mode:not(.is-export) .vigil-stage-frame.is-active .vigil-evidence-quote::after {
-  animation-delay: 0ms !important;
-}
-
 .vigil-standalone-page.is-present-mode .vigil-stage-context.is-active-stage .vigil-quote-card {
   border-color: #7c3aed;
   box-shadow:
@@ -2732,6 +2694,34 @@
   padding: 28px;
 }
 
+.vigil-standalone-page.is-present-mode:not(.is-export).focus-vigil-asks .vigil-stage-touchpoints {
+  opacity: 0.64;
+  filter: saturate(0.78);
+  transform: scale(0.99);
+}
+
+.vigil-standalone-page.is-present-mode:not(.is-export).focus-vigil-asks
+  .vigil-stage-touchpoints
+  .vigil-touchpoint-list
+  div {
+  opacity: 0;
+  transform: translateX(-22px) scale(0.98);
+  animation: vigilChannelArrive 640ms cubic-bezier(0.2, 0.9, 0.2, 1.08) both;
+}
+
+.vigil-standalone-page.is-present-mode:not(.is-export).focus-vigil-asks
+  .vigil-stage-touchpoints
+  .vigil-touchpoint-list
+  div::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(100deg, transparent 0%, rgba(124, 58, 237, 0.12) 50%, transparent 100%);
+  opacity: 0;
+  transform: translateX(-100%);
+  animation: vigilChannelScan 760ms ease-out both;
+}
+
 .vigil-standalone-page.is-present-mode:not(.is-export).focus-vigil-asks .vigil-question-list {
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 12px;
@@ -2780,6 +2770,76 @@
 
 .vigil-standalone-page.is-present-mode:not(.is-export).focus-vigil-asks .vigil-question-list div:nth-child(4)::before {
   animation-delay: 1720ms;
+}
+
+.vigil-standalone-page.is-present-mode:not(.is-export).focus-vigil-asks
+  .vigil-stage-touchpoints
+  .vigil-touchpoint-list
+  div:nth-child(1) {
+  animation-delay: 120ms;
+}
+
+.vigil-standalone-page.is-present-mode:not(.is-export).focus-vigil-asks
+  .vigil-stage-touchpoints
+  .vigil-touchpoint-list
+  div:nth-child(1)::before {
+  animation-delay: 340ms;
+}
+
+.vigil-standalone-page.is-present-mode:not(.is-export).focus-vigil-asks
+  .vigil-stage-touchpoints
+  .vigil-touchpoint-list
+  div:nth-child(2) {
+  animation-delay: 360ms;
+}
+
+.vigil-standalone-page.is-present-mode:not(.is-export).focus-vigil-asks
+  .vigil-stage-touchpoints
+  .vigil-touchpoint-list
+  div:nth-child(2)::before {
+  animation-delay: 580ms;
+}
+
+.vigil-standalone-page.is-present-mode:not(.is-export).focus-vigil-asks
+  .vigil-stage-touchpoints
+  .vigil-touchpoint-list
+  div:nth-child(3) {
+  animation-delay: 600ms;
+}
+
+.vigil-standalone-page.is-present-mode:not(.is-export).focus-vigil-asks
+  .vigil-stage-touchpoints
+  .vigil-touchpoint-list
+  div:nth-child(3)::before {
+  animation-delay: 820ms;
+}
+
+.vigil-standalone-page.is-present-mode:not(.is-export).focus-vigil-asks
+  .vigil-stage-touchpoints
+  .vigil-touchpoint-list
+  div:nth-child(4) {
+  animation-delay: 840ms;
+}
+
+.vigil-standalone-page.is-present-mode:not(.is-export).focus-vigil-asks
+  .vigil-stage-touchpoints
+  .vigil-touchpoint-list
+  div:nth-child(4)::before {
+  animation-delay: 1060ms;
+}
+
+.vigil-standalone-page.is-present-mode:not(.is-export).focus-vigil-asks
+  .vigil-stage-touchpoints
+  .vigil-touchpoint-list
+  div:nth-child(5) {
+  animation-delay: 1080ms;
+}
+
+.vigil-standalone-page.is-present-mode:not(.is-export).focus-vigil-asks
+  .vigil-stage-touchpoints
+  .vigil-touchpoint-list
+  div:nth-child(5)::before {
+  animation-delay: 1300ms;
 }
 
 .vigil-mode-badge,
